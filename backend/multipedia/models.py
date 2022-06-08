@@ -7,3 +7,5 @@ class Search(models.Model):
 
     def __str__(self):
         return self.term
+    class Meta(object):
+        verbose_name_plural = "Searches"

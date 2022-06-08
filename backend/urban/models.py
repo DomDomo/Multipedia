@@ -8,4 +8,6 @@ class UrbanSearch(models.Model):
     word = models.CharField(max_length=50)
     definition = models.TextField()
     example = models.TextField()
-    
+
+    class Meta(object):
+        verbose_name_plural = "Urban Searches"
