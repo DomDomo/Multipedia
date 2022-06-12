@@ -3,9 +3,18 @@ import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
 import FindInPageIcon from "@mui/icons-material/FindInPage";
 import { useState } from "react";
+import axios from "axios";
 
 export default function SearchPage(props) {
   const [search, setSearch] = useState("");
+  const [result, setResult] = useState({});
+
+  const getResult = () => {
+    axios
+      .get("/api/")
+      .then((res) => setResult({ terms: res.data }))
+      .catch((err) => console.log(err));
+  };
 
   const enterKeyPress = (e) => {
     if (e.keyCode === 13) {
@@ -14,7 +23,8 @@ export default function SearchPage(props) {
   };
 
   const onSearchPress = () => {
-    console.log(search);
+    console.log(result);
+    getResult();
   };
 
   return (
@@ -72,6 +82,9 @@ export default function SearchPage(props) {
           </IconButton>
         </Box>
       </Grid>
+      <Typography variant="h6" align="center">
+        {result && JSON.stringify(result, null, 2)}
+      </Typography>
     </Grid>
   );
 }
