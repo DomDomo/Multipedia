@@ -7,4 +7,5 @@ class SearchSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Search
-        fields = ('term', 'urban_search')
+        fields = ('term', 'slug', 'urban_search')
+        lookup_field = 'slug'
