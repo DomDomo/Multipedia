@@ -5,6 +5,10 @@ from .models import Search
 
 # Create your views here.
 
-class SearchView(generics.ListAPIView):
-    serializer_class = SearchSerializer
+class SearchListAPIhView(generics.ListAPIView):
     queryset = Search.objects.all()
+    serializer_class = SearchSerializer
+
+class SearchDetailAPIView(generics.RetrieveAPIView):
+    queryset = Search.objects.all()
+    serializer_class = SearchSerializer

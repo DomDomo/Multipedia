@@ -9,10 +9,10 @@ const ResultPage = (props) => {
 
   useEffect(() => {
     axios
-      .get("/api/")
+      .get(`/api/${state.search}`)
       .then((res) => setResult({ terms: res.data }))
       .catch((err) => console.log(err));
-  }, []);
+  }, [state.search]);
 
   return (
     <Grid
