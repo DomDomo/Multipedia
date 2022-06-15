@@ -1,12 +1,18 @@
 import { Grid, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-export default function ResultPage(props) {
+const ResultPage = (props) => {
   const { state } = useLocation();
-  const [search, setSearch] = useState(state.search);
+  const [result, setResult] = useState({});
 
-  console.log(state);
+  useEffect(() => {
+    axios
+      .get("/api/")
+      .then((res) => setResult({ terms: res.data }))
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <Grid
@@ -20,9 +26,16 @@ export default function ResultPage(props) {
     >
       <Grid item xs={12}>
         <Typography variant="h2" align="center">
-          Search for: {search}
+          Search for: {state.search}
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="h6" align="center">
+          {JSON.stringify(result, null, 2)}
         </Typography>
       </Grid>
     </Grid>
   );
-}
+};
+
+export default ResultPage;
