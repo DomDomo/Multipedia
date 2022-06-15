@@ -2,12 +2,25 @@ import { Grid, IconButton, InputBase, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
 import FindInPageIcon from "@mui/icons-material/FindInPage";
+
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 
-export default function SearchPage(props) {
+const slugify = (str) =>
+  str
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+function SearchPage(props) {
   const [search, setSearch] = useState("");
   const [result, setResult] = useState({});
+
+  let navigate = useNavigate();
 
   const getResult = () => {
     axios
@@ -24,7 +37,12 @@ export default function SearchPage(props) {
 
   const onSearchPress = () => {
     console.log(result);
-    getResult();
+    //getResult();
+    navigate(`../result/${slugify(search)}`, {
+      state: {
+        search: search,
+      },
+    });
   };
 
   return (
@@ -82,9 +100,8 @@ export default function SearchPage(props) {
           </IconButton>
         </Box>
       </Grid>
-      <Typography variant="h6" align="center">
-        {result && JSON.stringify(result, null, 2)}
-      </Typography>
     </Grid>
   );
 }
+
+export default SearchPage;
