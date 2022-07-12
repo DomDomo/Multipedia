@@ -24,6 +24,12 @@ const theme = createTheme({
     h2: {
       fontFamily: ["Volkhov", "serif"].join(","),
     },
+    h3: {
+      fontFamily: ["Volkhov", "serif"].join(","),
+    },
+    body2: {
+      fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+    },
   },
 });
 

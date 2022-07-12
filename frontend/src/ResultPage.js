@@ -1,8 +1,39 @@
-import { Grid, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Grid,
+  Typography,
+} from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import { urbanRequest } from "./api";
+import React from "react";
+
+import Urban from "./icon/urban.svg";
+
+const UrbanCard = (props) => {
+  return (
+    <Card style={{ backgroundColor: "#1D2439" }} sx={{ margin: 1 }}>
+      <CardHeader
+        sx={{ paddingBottom: 1 }}
+        avatar={
+          <CardMedia
+            height="40"
+            src={Urban}
+            component="img"
+            title="Urban Dictionary logo"
+          />
+        }
+      />
+      <CardContent sx={{ paddingTop: 1 }}>
+        <Typography variant="body2">{props.definition}</Typography>
+      </CardContent>
+    </Card>
+  );
+};
 
 const ResultPage = (props) => {
   const { state } = useLocation();
@@ -20,19 +51,29 @@ const ResultPage = (props) => {
       spacing={0}
       direction="column"
       alignItems="center"
-      textAlign="center"
       justifyContent="center"
       style={{ minHeight: "100vh" }}
     >
       <Grid item xs={12}>
-        <Typography variant="h2" align="center">
+        <Typography variant="h3" align="center" sx={{ marginY: 5 }}>
           Search for: {state.search}
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Typography variant="h6" align="center">
-          {result}
-        </Typography>
+        <Grid container spacing={0} alignItems="center" justifyContent="center">
+          <Grid item xs={10} md={5}>
+            <UrbanCard definition={result} />
+          </Grid>
+          <Grid item xs={10} md={5}>
+            <UrbanCard definition={result} />
+          </Grid>
+          <Grid item xs={10} md={5}>
+            <UrbanCard definition={result} />
+          </Grid>
+          <Grid item xs={10} md={5}>
+            <UrbanCard definition={result} />
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );
