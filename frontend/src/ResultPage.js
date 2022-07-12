@@ -1,18 +1,18 @@
 import { Grid, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
+
+import { urbanRequest } from "./api";
 
 const ResultPage = (props) => {
   const { state } = useLocation();
+
+  const { search } = state;
   const [result, setResult] = useState({});
 
   useEffect(() => {
-    axios
-      .get(`/api/${state.search}`)
-      .then((res) => setResult({ terms: res.data }))
-      .catch((err) => console.log(err));
-  }, [state.search]);
+    urbanRequest(search).then((data) => setResult(data));
+  }, [search]);
 
   return (
     <Grid
@@ -31,7 +31,7 @@ const ResultPage = (props) => {
       </Grid>
       <Grid item xs={12}>
         <Typography variant="h6" align="center">
-          {JSON.stringify(result, null, 2)}
+          {result}
         </Typography>
       </Grid>
     </Grid>
