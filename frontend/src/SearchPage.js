@@ -65,7 +65,7 @@ const SearchBar = (props) => {
         type="submit"
         aria-label="search"
         color="primary"
-        onClick={() => props.commitSearch}
+        onClick={() => props.commitSearch(search)}
       >
         <SearchIcon sx={{ fontSize: 30 }} />
       </IconButton>
@@ -77,6 +77,7 @@ const SearchPage = (props) => {
   let navigate = useNavigate();
 
   const commitSearch = (search) => {
+    console.log("hello");
     navigate(`../result/${slugify(search)}`, {
       state: {
         search: search,

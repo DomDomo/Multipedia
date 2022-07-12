@@ -8,7 +8,7 @@ const ResultPage = (props) => {
   const { state } = useLocation();
 
   const { search } = state;
-  const [result, setResult] = useState({});
+  const [result, setResult] = useState("loading");
 
   useEffect(() => {
     urbanRequest(search).then((data) => setResult(data));

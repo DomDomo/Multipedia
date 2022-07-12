@@ -14,6 +14,7 @@ export const urbanRequest = (payload) => {
   return axios
     .request(options)
     .then((res) => {
+      console.log(res);
       console.log(res.data["list"][0]["definition"]);
       return res.data["list"][0]["definition"];
     })
