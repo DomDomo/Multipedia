@@ -52,10 +52,10 @@ const ResultPage = (props) => {
       direction="column"
       alignItems="center"
       justifyContent="center"
-      style={{ minHeight: "100vh" }}
+      style={{ minHeight: "70vh" }}
     >
       <Grid item xs={12}>
-        <Typography variant="h3" align="center" sx={{ marginY: 5 }}>
+        <Typography variant="h4" align="center" sx={{ marginY: 3 }}>
           Search for: {state.search}
         </Typography>
       </Grid>

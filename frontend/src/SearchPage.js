@@ -5,6 +5,7 @@ import FindInPageIcon from "@mui/icons-material/FindInPage";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const slugify = (str) =>
   str
@@ -27,7 +28,7 @@ const Logo = () => {
         <FindInPageIcon sx={{ fontSize: 70 }} color="primary" />
       </Grid>
       <Grid item xs={10}>
-        <Typography variant="h2" align="center">
+        <Typography variant="h3" align="center">
           Multipedia
         </Typography>
       </Grid>
@@ -93,7 +94,7 @@ const SearchPage = (props) => {
       alignItems="center"
       textAlign="center"
       justifyContent="center"
-      style={{ minHeight: "100vh" }}
+      style={{ minHeight: "70vh" }}
     >
       <Grid item xs={12} sx={{ mb: 3 }}>
         <Logo />

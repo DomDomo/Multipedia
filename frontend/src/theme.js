@@ -21,6 +21,7 @@ const theme = createTheme({
     },
   },
   typography: {
+    fontFamily: ["Volkhov", "serif"].join(","),
     h2: {
       fontFamily: ["Volkhov", "serif"].join(","),
     },
