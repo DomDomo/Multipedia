@@ -1,45 +1,22 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  Grid,
-  Typography,
-} from "@mui/material";
+import React from "react";
+
+import UrbanCard from "./UrbanCard";
+
+import { Grid, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import { urbanRequest } from "./api";
-import React from "react";
-
-import Urban from "./icon/urban.svg";
-
-const UrbanCard = (props) => {
-  return (
-    <Card style={{ backgroundColor: "#1D2439" }} sx={{ margin: 1 }}>
-      <CardHeader
-        sx={{ paddingBottom: 1 }}
-        avatar={
-          <CardMedia
-            height="40"
-            src={Urban}
-            component="img"
-            title="Urban Dictionary logo"
-          />
-        }
-      />
-      <CardContent sx={{ paddingTop: 1 }}>
-        <Typography variant="body2">{props.definition}</Typography>
-      </CardContent>
-    </Card>
-  );
-};
 
 const ResultPage = (props) => {
   const { state } = useLocation();
 
   const { search } = state;
-  const [result, setResult] = useState("loading");
+  const [result, setResult] = useState({
+    word: "loading...",
+    definition: "loading...",
+    example: "loading...",
+  });
 
   useEffect(() => {
     urbanRequest(search).then((data) => setResult(data));
@@ -62,16 +39,16 @@ const ResultPage = (props) => {
       <Grid item xs={12}>
         <Grid container spacing={0} alignItems="center" justifyContent="center">
           <Grid item xs={10} md={5}>
-            <UrbanCard definition={result} />
+            <UrbanCard result={result} />
           </Grid>
           <Grid item xs={10} md={5}>
-            <UrbanCard definition={result} />
+            <UrbanCard result={result} />
           </Grid>
           <Grid item xs={10} md={5}>
-            <UrbanCard definition={result} />
+            <UrbanCard result={result} />
           </Grid>
           <Grid item xs={10} md={5}>
-            <UrbanCard definition={result} />
+            <UrbanCard result={result} />
           </Grid>
         </Grid>
       </Grid>

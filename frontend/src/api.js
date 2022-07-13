@@ -14,9 +14,13 @@ export const urbanRequest = (payload) => {
   return axios
     .request(options)
     .then((res) => {
-      console.log(res);
-      console.log(res.data["list"][0]["definition"]);
-      return res.data["list"][0]["definition"];
+      let firstItem = res.data["list"][0];
+      let filteredResponse = {
+        word: firstItem["word"],
+        definition: firstItem["definition"],
+        example: firstItem["example"],
+      };
+      return filteredResponse;
     })
     .catch((err) => console.log(err));
 };
