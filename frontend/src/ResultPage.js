@@ -6,19 +6,23 @@ import { Grid, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import { urbanRequest } from "./api";
+import { urbanRequest } from "./util/api";
 
 const ResultPage = (props) => {
   const { state } = useLocation();
 
+  console.log(state);
+
   const { search } = state;
   const [result, setResult] = useState({
     word: "loading...",
-    definition: "loading...",
+    // definition: "loading...",
     example: "loading...",
+    definition: "loading...",
   });
 
   useEffect(() => {
+    console.log(search);
     urbanRequest(search).then((data) => setResult(data));
   }, [search]);
 

@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Grid, IconButton, InputBase, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
@@ -5,15 +7,8 @@ import FindInPageIcon from "@mui/icons-material/FindInPage";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import React from "react";
 
-const slugify = (str) =>
-  str
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/[\s_-]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+import { slugify } from "./util/helper";
 
 const Logo = () => {
   return (
@@ -78,7 +73,6 @@ const SearchPage = (props) => {
   let navigate = useNavigate();
 
   const commitSearch = (search) => {
-    console.log("hello");
     navigate(`../result/${slugify(search)}`, {
       state: {
         search: search,

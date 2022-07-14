@@ -1,3 +1,4 @@
+import React from "react";
 import SearchPage from "./SearchPage";
 import ResultPage from "./ResultPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
