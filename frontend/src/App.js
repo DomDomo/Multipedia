@@ -1,6 +1,6 @@
 import React from "react";
-import SearchPage from "./SearchPage";
-import ResultPage from "./ResultPage";
+import SearchPage from "./components/SearchPage";
+import ResultPage from "./components/ResultPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {

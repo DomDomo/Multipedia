@@ -1,8 +1,8 @@
 import React from "react";
 import reactStringReplace from "react-string-replace";
 
-import Urban from "./icon/urban.svg";
-import { slugify } from "./util/helper";
+import Urban from "../icon/urban.svg";
+import { slugify } from "../util/helper";
 import { useNavigate } from "react-router-dom";
 
 import {

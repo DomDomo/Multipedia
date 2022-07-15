@@ -1,35 +1,14 @@
 import React from "react";
 
-import { Grid, IconButton, InputBase, Typography } from "@mui/material";
+import { Grid, IconButton, InputBase } from "@mui/material";
 import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
-import FindInPageIcon from "@mui/icons-material/FindInPage";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { slugify } from "./util/helper";
-
-const Logo = () => {
-  return (
-    <Grid
-      container
-      spacing={2}
-      direction="row"
-      alignItems="center"
-      justifyContent="center"
-    >
-      <Grid item xs={2}>
-        <FindInPageIcon sx={{ fontSize: 70 }} color="primary" />
-      </Grid>
-      <Grid item xs={10}>
-        <Typography variant="h3" align="center">
-          Multipedia
-        </Typography>
-      </Grid>
-    </Grid>
-  );
-};
+import { slugify } from "../util/helper";
+import Logo from "./Logo";
 
 const SearchBar = (props) => {
   const [search, setSearch] = useState("");
