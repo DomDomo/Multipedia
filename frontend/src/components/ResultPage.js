@@ -29,41 +29,43 @@ const ResultPage = (props) => {
   return (
     <Box style={{ width: "100%" }}>
       <LogoBar />
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        style={{ minHeight: "70vh" }}
-      >
-        <Grid item xs={12}>
-          <Typography variant="h4" align="center" sx={{ marginY: 3 }}>
-            Search for: {state.search}
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Grid
-            container
-            spacing={0}
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Grid item xs={10} md={5}>
-              <UrbanCard result={result} />
-            </Grid>
-            <Grid item xs={10} md={5}>
-              <UrbanCard result={result} />
-            </Grid>
-            <Grid item xs={10} md={5}>
-              <UrbanCard result={result} />
-            </Grid>
-            <Grid item xs={10} md={5}>
-              <UrbanCard result={result} />
+      <Box sx={{ margin: "0 auto", maxWidth: "80rem", minWidth: "24rem" }}>
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          style={{ minHeight: "70vh" }}
+        >
+          <Grid item xs={12}>
+            <Typography variant="h4" align="center" sx={{ marginY: 3 }}>
+              Search for: {state.search}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid
+              container
+              spacing={3}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Grid item xs={10} md={5}>
+                <UrbanCard result={result} />
+              </Grid>
+              <Grid item xs={10} md={5}>
+                <UrbanCard result={result} />
+              </Grid>
+              <Grid item xs={10} md={5}>
+                <UrbanCard result={result} />
+              </Grid>
+              <Grid item xs={10} md={5}>
+                <UrbanCard result={result} />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </Box>
     </Box>
   );
 };

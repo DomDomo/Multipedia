@@ -72,7 +72,7 @@ const UrbanCard = (props) => {
 
   return (
     <ThemeProvider theme={urbanTheme}>
-      <Card style={{ backgroundColor: "#1D2439" }} sx={{ margin: 1 }}>
+      <Card style={{ backgroundColor: "#1D2439" }}>
         <CardHeader
           sx={{ paddingBottom: 1 }}
           action={<CardMedia height="40" src={Urban} component="img" />}
