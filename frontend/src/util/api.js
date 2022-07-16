@@ -24,3 +24,27 @@ export const urbanRequest = (payload) => {
     })
     .catch((err) => console.log(err));
 };
+
+export const wikiRequest = (payload) => {
+  const titleOptions = {
+    method: "GET",
+    url: `https://en.wikipedia.org/w/api.php?origin=*&action=query&format=json&list=search&srsearch=${payload}`,
+  };
+
+  const wikiSummaryURL = "https://en.wikipedia.org/api/rest_v1/page/summary/";
+
+  return axios
+    .request(titleOptions)
+    .then((res) => {
+      let firstItemTitle = res.data["query"]["search"][0]["title"];
+      return axios.get(wikiSummaryURL + firstItemTitle);
+    })
+    .then((res) => {
+      let filteredResponse = {
+        title: res.data["title"],
+        content: res.data["extract_html"],
+      };
+      return filteredResponse;
+    })
+    .catch((err) => console.log(err));
+};

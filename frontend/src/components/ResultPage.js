@@ -4,27 +4,14 @@ import UrbanCard from "./UrbanCard";
 
 import { Box, Grid, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
 
-import { urbanRequest } from "../util/api";
 import LogoBar from "./LogoBar";
+import WikiCard from "./WikiCard";
 
 const ResultPage = (props) => {
   const { state } = useLocation();
 
-  console.log(state);
-
   const { search } = state;
-  const [result, setResult] = useState({
-    word: "loading...",
-    example: "loading...",
-    definition: "loading...",
-  });
-
-  useEffect(() => {
-    console.log(search);
-    urbanRequest(search).then((data) => setResult(data));
-  }, [search]);
 
   return (
     <Box style={{ width: "100%" }}>
@@ -51,16 +38,10 @@ const ResultPage = (props) => {
               justifyContent="center"
             >
               <Grid item xs={10} md={5}>
-                <UrbanCard result={result} />
+                <UrbanCard search={search} />
               </Grid>
               <Grid item xs={10} md={5}>
-                <UrbanCard result={result} />
-              </Grid>
-              <Grid item xs={10} md={5}>
-                <UrbanCard result={result} />
-              </Grid>
-              <Grid item xs={10} md={5}>
-                <UrbanCard result={result} />
+                <WikiCard search={search} />
               </Grid>
             </Grid>
           </Grid>
