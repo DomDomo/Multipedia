@@ -14,6 +14,13 @@ export const urbanRequest = (payload) => {
   return axios
     .request(options)
     .then((res) => {
+      if (res.data["list"].length <= 0) {
+        return {
+          word: String("¯\\_(ツ)_/¯"),
+          definition: `Sorry, couldn't find: ${payload}`,
+          example: "",
+        };
+      }
       let firstItem = res.data["list"][0];
       let filteredResponse = {
         word: firstItem["word"],
