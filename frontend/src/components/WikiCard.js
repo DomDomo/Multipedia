@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-
 import Wiki from "../icon/wikipedia.svg";
+import { Interweave } from "interweave";
 
 import {
   Card,
@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { wikiRequest } from "../util/api";
+import LinkMatcher from "../util/LinkMatcher";
 
 const wikiTheme = createTheme({
   typography: {
@@ -50,11 +51,9 @@ const WikiCard = (props) => {
   const [result, setResult] = useState({
     title: "loading...",
     content: "loading...",
-    definition: "loading...",
   });
 
   useEffect(() => {
-    console.log(props.search);
     wikiRequest(props.search).then((data) => setResult(data));
   }, [props.search]);
 
@@ -74,11 +73,12 @@ const WikiCard = (props) => {
           }
         />
         <CardContent sx={{ paddingTop: 1 }}>
-          <Typography
-            variant="body1"
-            sx={{ mb: 1 }}
-            dangerouslySetInnerHTML={{ __html: result.content }}
-          ></Typography>
+          <Typography variant="body1" sx={{ mb: 1 }} component={"span"}>
+            <Interweave
+              content={result.content}
+              matchers={[new LinkMatcher("link")]}
+            />
+          </Typography>
         </CardContent>
       </Card>
     </ThemeProvider>

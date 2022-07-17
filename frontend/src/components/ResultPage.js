@@ -1,14 +1,13 @@
 import React from "react";
 
-import UrbanCard from "./UrbanCard";
-
 import { Box, Grid, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
 import LogoBar from "./LogoBar";
+import UrbanCard from "./UrbanCard";
 import WikiCard from "./WikiCard";
 
-const ResultPage = (props) => {
+const ResultPage = () => {
   const { state } = useLocation();
 
   const { search } = state;
@@ -27,7 +26,7 @@ const ResultPage = (props) => {
         >
           <Grid item xs={12}>
             <Typography variant="h4" align="center" sx={{ marginY: 3 }}>
-              Search for: {state.search}
+              Search for: {search}
             </Typography>
           </Grid>
           <Grid item xs={12}>

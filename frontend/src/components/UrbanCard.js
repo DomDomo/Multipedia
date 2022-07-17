@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import reactStringReplace from "react-string-replace";
 
 import Urban from "../icon/urban.svg";
-import { slugify } from "../util/helper";
-import { useNavigate } from "react-router-dom";
 
 import {
   Card,
@@ -11,20 +8,11 @@ import {
   CardHeader,
   CardMedia,
   createTheme,
-  Link,
   ThemeProvider,
   Typography,
 } from "@mui/material";
 import { urbanRequest } from "../util/api";
-
-// This function takes a string and adds links where the words are in brackets
-const addLinks = (str, commitSearch) => {
-  return reactStringReplace(str, /\[(.*?)\]/g, (match, i) => (
-    <Link key={i} onClick={() => commitSearch(match)}>
-      {match}
-    </Link>
-  ));
-};
+import LinkedText from "./LinkedText";
 
 const urbanTheme = createTheme({
   typography: {
@@ -61,8 +49,6 @@ const urbanTheme = createTheme({
 });
 
 const UrbanCard = (props) => {
-  let navigate = useNavigate();
-
   const [result, setResult] = useState({
     word: "loading...",
     example: "loading...",
@@ -70,17 +56,8 @@ const UrbanCard = (props) => {
   });
 
   useEffect(() => {
-    console.log(props.search);
     urbanRequest(props.search).then((data) => setResult(data));
   }, [props.search]);
-
-  const commitSearch = (search) => {
-    navigate(`../result/${slugify(search)}`, {
-      state: {
-        search: search,
-      },
-    });
-  };
 
   return (
     <ThemeProvider theme={urbanTheme}>
@@ -96,10 +73,10 @@ const UrbanCard = (props) => {
         />
         <CardContent sx={{ paddingTop: 1 }}>
           <Typography variant="body1" sx={{ mb: 1 }}>
-            {addLinks(result.definition, commitSearch)}
+            <LinkedText text={result.definition} />
           </Typography>
           <Typography variant="body2">
-            {addLinks(result.example, commitSearch)}
+            <LinkedText text={result.example} />
           </Typography>
         </CardContent>
       </Card>
