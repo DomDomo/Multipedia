@@ -45,6 +45,15 @@ const urbanTheme = createTheme({
         },
       },
     },
+    MuiCardMedia: {
+      styleOverrides: {
+        root: {
+          ":hover": {
+            cursor: "pointer",
+          },
+        },
+      },
+    },
   },
 });
 
@@ -59,12 +68,26 @@ const UrbanCard = (props) => {
     urbanRequest(props.search).then((data) => setResult(data));
   }, [props.search]);
 
+  const handleRealWebsiteRedirect = () => {
+    window.open(
+      `https://www.urbandictionary.com/define.php?term=${result.word}`,
+      "_blank"
+    );
+  };
+
   return (
     <ThemeProvider theme={urbanTheme}>
       <Card style={{ backgroundColor: "#1D2439" }}>
         <CardHeader
           sx={{ paddingBottom: 1 }}
-          action={<CardMedia height="40" src={Urban} component="img" />}
+          action={
+            <CardMedia
+              onClick={handleRealWebsiteRedirect}
+              height="40"
+              src={Urban}
+              component="img"
+            />
+          }
           title={
             <Typography variant="h5" color="#1FA2F3">
               {result.word}

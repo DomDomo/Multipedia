@@ -44,6 +44,15 @@ const wikiTheme = createTheme({
         },
       },
     },
+    MuiCardMedia: {
+      styleOverrides: {
+        root: {
+          ":hover": {
+            cursor: "pointer",
+          },
+        },
+      },
+    },
   },
 });
 
@@ -57,12 +66,23 @@ const WikiCard = (props) => {
     wikiRequest(props.search).then((data) => setResult(data));
   }, [props.search]);
 
+  const handleRealWebsiteRedirect = () => {
+    window.open(`https://en.wikipedia.org/wiki/${result.title}`, "_blank");
+  };
+
   return (
     <ThemeProvider theme={wikiTheme}>
       <Card style={{ backgroundColor: "#FFF" }}>
         <CardHeader
           sx={{ paddingBottom: 1 }}
-          action={<CardMedia height="70" src={Wiki} component="img" />}
+          action={
+            <CardMedia
+              onClick={handleRealWebsiteRedirect}
+              height="70"
+              src={Wiki}
+              component="img"
+            />
+          }
           title={
             <Typography
               variant="h5"

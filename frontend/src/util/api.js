@@ -29,7 +29,7 @@ export const urbanRequest = (payload) => {
       };
       return filteredResponse;
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.error(err));
 };
 
 const findNestedLinks = (text) => {
