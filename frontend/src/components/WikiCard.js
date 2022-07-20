@@ -36,11 +36,11 @@ const wikiTheme = createTheme({
       styleOverrides: {
         root: {
           ":hover": {
-            color: "#3AFF58",
             cursor: "pointer",
+            textDecorationLine: "underline",
           },
-          color: "#1FA2F3",
-          textDecorationColor: "rgba(31,162,243, 1)",
+          textDecorationColor: "#076FCA",
+          textDecorationLine: "none",
         },
       },
     },
