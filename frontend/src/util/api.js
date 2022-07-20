@@ -32,23 +32,6 @@ export const urbanRequest = (payload) => {
     .catch((err) => console.log(err));
 };
 
-// const findFirstParagraph = (summary, wikiText) => {
-//   let summaryWords = summary.replace(/<[^>]*>?/gm, "").split(" "); // Remove HTML tags
-//   summaryWords = summaryWords.filter((word) => !word.match(/[^\w\s]/g)); // Remove words with punctuation
-//   const paragraphs = wikiText.split("\n");
-
-//   console.log(paragraphs);
-//   console.log(summaryWords);
-
-//   // Choose the paragraps that has all the words that the summary has
-//   const firstParagraph = paragraphs.filter((p) =>
-//     summaryWords.every((word) => p.includes(word))
-//   )[0];
-//   console.log(firstParagraph);
-
-//   return firstParagraph;
-// };
-
 const findNestedLinks = (text) => {
   let levels = [];
   let depth = 0;
@@ -62,9 +45,8 @@ const findNestedLinks = (text) => {
 };
 
 const addLinksToSummary = (summaryData, linkData) => {
-  const wikiText = linkData["parse"]["wikitext"]["*"];
   const doubleBrackets = /\[\[(.*?)\]\]/g;
-  const linksInParagraph = [...wikiText.matchAll(doubleBrackets)].map((link) =>
+  const linksInParagraph = [...linkData.matchAll(doubleBrackets)].map((link) =>
     link[0].slice(2, -2).split("|").at(-1).trim()
   );
 
@@ -90,44 +72,64 @@ const addLinksToSummary = (summaryData, linkData) => {
   });
 
   // Fix plural links by adding the "s" in the link
-  console.log(summaryData);
   summaryData = summaryData.replace(/]s/g, "s]");
 
   return summaryData;
 };
 
-export const wikiRequest = (payload) => {
-  const titleOptions = {
-    method: "GET",
-    url: `https://en.wikipedia.org/w/api.php?origin=*&format=json&action=query&list=search&srsearch=${payload}`,
-  };
+const makeMayReferToPage = (allTitles, content) => {
+  let noListContent = content.split("</p>")[0];
+  noListContent = noListContent + "</p>";
+
+  let htmlTitles = "";
+  allTitles.slice(1).forEach((titleData) => {
+    let htmlTitle = `<li>[${titleData["title"]}]</li>`;
+    htmlTitles = htmlTitles.concat("\n", htmlTitle);
+  });
+
+  let listWithLinks = `<ul>${htmlTitles}\n</ul>`;
+
+  return noListContent + listWithLinks;
+};
+
+export const wikiRequest = async (payload) => {
+  const wikiTitlesURL = `https://en.wikipedia.org/w/api.php?origin=*&format=json&action=query&list=search&srsearch=${payload}`;
 
   const wikiSummaryURL = "https://en.wikipedia.org/api/rest_v1/page/summary/";
   const wikiLinkURL =
     "https://en.wikipedia.org/w/api.php?origin=*&format=json&action=parse&prop=wikitext&section=0&page=";
 
-  return axios.request(titleOptions).then((res) => {
-    let firstItemTitle = res.data["query"]["search"][0]["title"];
-    const requestSummary = axios.get(wikiSummaryURL + firstItemTitle);
-    const requestLinks = axios.get(wikiLinkURL + firstItemTitle);
-    return axios
-      .all([requestSummary, requestLinks])
+  let filteredResponse = {};
 
-      .then(
-        axios.spread((...responses) => {
-          const summaryResponse = responses[0].data;
-          const linkResponse = responses[1].data;
+  try {
+    const titlesResponse = await axios.get(wikiTitlesURL);
+    const firstItemTitle = titlesResponse.data["query"]["search"][0]["title"];
+    const [summaryResponse, linkResponse] = await axios.all([
+      axios.get(wikiSummaryURL + firstItemTitle),
+      axios.get(wikiLinkURL + firstItemTitle),
+    ]);
 
-          let filteredResponse = {
-            title: summaryResponse["title"],
-            content: addLinksToSummary(
-              summaryResponse["extract_html"],
-              linkResponse
-            ),
-          };
-          return filteredResponse;
-        })
-      )
-      .catch((err) => console.log(err));
-  });
+    const summaryData = summaryResponse.data;
+    const linkData = linkResponse.data["parse"]["wikitext"]["*"];
+
+    let formattedContent = addLinksToSummary(
+      summaryData["extract_html"],
+      linkData
+    );
+
+    filteredResponse.title = summaryData["title"];
+    filteredResponse.content = formattedContent;
+
+    if (summaryData["extract_html"].includes("may refer to:")) {
+      let betterMayReferToContent = makeMayReferToPage(
+        titlesResponse.data["query"]["search"],
+        formattedContent
+      );
+      filteredResponse.content = betterMayReferToContent;
+    }
+
+    return filteredResponse;
+  } catch (err) {
+    console.error(err);
+  }
 };
