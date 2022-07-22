@@ -60,7 +60,35 @@ const wikiTheme = createTheme({
   },
 });
 
-const WikiCard = (props) => {
+const GoogleMeaning = (props) => {
+  const possibleNumber = props.num !== "no" ? `${props.num + 1}.  ` : "";
+  return (
+    <Box>
+      <Typography
+        sx={{ fontStyle: "italic", marginLeft: 0 }}
+        variant="caption"
+        color="text.secondary"
+      >
+        {props.result.partOfSpeech}
+      </Typography>
+      <Typography variant="body1">
+        {possibleNumber}
+        {props.result.definition}
+      </Typography>
+      {props.result.example && (
+        <Typography
+          sx={{ fontStyle: "italic" }}
+          variant="body1"
+          color="text.secondary"
+        >
+          "{props.result.example}"
+        </Typography>
+      )}
+    </Box>
+  );
+};
+
+const GoogleCard = (props) => {
   const [result, setResult] = useState({
     title: "loading...",
     phonetic: "",
@@ -68,6 +96,7 @@ const WikiCard = (props) => {
     definition: "loading...",
     example: "",
     synonyms: [],
+    meanings: [],
   });
 
   useEffect(() => {
@@ -81,9 +110,15 @@ const WikiCard = (props) => {
     );
   };
 
+  const meaningList = result.meanings.map((meaning, i) => {
+    return <GoogleMeaning key={i} result={meaning} num={i} />;
+  });
+
+  const singleMeaning = <GoogleMeaning result={result.meanings[0]} num="no" />;
+
   const synonymsList = result.synonyms.map((synonym, i) => (
     <Box
-      key={i}
+      key={synonym + i}
       sx={{
         display: "inline-block",
         border: "1px solid #DADCE0",
@@ -99,6 +134,8 @@ const WikiCard = (props) => {
       <LinkedText text={`[${synonym}]`} />
     </Box>
   ));
+
+  console.log(synonymsList);
 
   return (
     <ThemeProvider theme={wikiTheme}>
@@ -119,27 +156,12 @@ const WikiCard = (props) => {
               <Typography display="block" variant="caption">
                 {result.phonetic}
               </Typography>
-              <Typography
-                sx={{ fontStyle: "italic" }}
-                variant="caption"
-                color="text.secondary"
-              >
-                {result.partOfSpeech}
-              </Typography>
             </Box>
           }
         />
         <CardContent sx={{ paddingTop: 0, marginLeft: 1 }}>
-          <Typography variant="body1">{result.definition}</Typography>
-          {result.example && (
-            <Typography
-              sx={{ fontStyle: "italic" }}
-              variant="body1"
-              color="text.secondary"
-            >
-              "{result.example}"
-            </Typography>
-          )}
+          {result.meanings.length === 1 && singleMeaning}
+          {result.meanings.length > 1 && meaningList}
           {result.synonyms.length > 0 && (
             <Box sx={{ marginTop: 1 }}>
               <Typography style={{ color: "#198138" }} variant="caption">
@@ -154,4 +176,4 @@ const WikiCard = (props) => {
   );
 };
 
-export default WikiCard;
+export default GoogleCard;

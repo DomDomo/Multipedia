@@ -144,31 +144,39 @@ export const googleRequest = (payload) => {
     definition: "The definition was not found.",
     example: "",
     synonyms: [],
+    meanings: [],
   };
 
   return axios
     .get(googleDictURL + payload)
     .then((res) => {
-      // TODO
-      // Return a list of definitions and displaya all of them.
-
       const termData = res.data[0];
+
+      console.log(termData);
 
       filteredResponse.title = termData.word;
       filteredResponse.phonetic = termData.phonetic;
 
-      const meaningData = termData.meanings[0];
-      const definitionData = meaningData.definitions[0];
+      termData.meanings.forEach((singleMeaningData) => {
+        let singleMeaning = {};
+        let definitionData = singleMeaningData.definitions[0];
 
-      filteredResponse.definition = definitionData.definition;
+        singleMeaning.definition = definitionData.definition;
 
-      if ("example" in definitionData)
-        filteredResponse.example = definitionData.example;
+        if ("example" in definitionData)
+          singleMeaning.example = definitionData.example;
 
-      if ("synonyms" in meaningData)
-        filteredResponse.synonyms = meaningData.synonyms.slice(0, 3);
+        if ("synonyms" in singleMeaningData)
+          filteredResponse.synonyms = filteredResponse.synonyms.concat(
+            singleMeaningData.synonyms.slice(0, 3)
+          );
 
-      filteredResponse.partOfSpeech = meaningData.partOfSpeech;
+        singleMeaning.partOfSpeech = singleMeaningData.partOfSpeech;
+
+        filteredResponse.meanings.push(singleMeaning);
+      });
+
+      console.log(filteredResponse.synonyms);
 
       return filteredResponse;
     })
