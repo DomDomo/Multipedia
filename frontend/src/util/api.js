@@ -103,7 +103,8 @@ export const wikiRequest = async (payload) => {
 
   try {
     const titlesResponse = await axios.get(wikiTitlesURL);
-    const firstItemTitle = titlesResponse.data["query"]["search"][0]["title"];
+    let firstItemTitle = titlesResponse.data["query"]["search"][0]["title"];
+    firstItemTitle = firstItemTitle.replace(/[/]/g, "%2F");
     const [summaryResponse, linkResponse] = await axios.all([
       axios.get(wikiSummaryURL + firstItemTitle),
       axios.get(wikiLinkURL + firstItemTitle),
@@ -140,9 +141,6 @@ export const googleRequest = (payload) => {
   let filteredResponse = {
     title: "Sorry :(",
     phonetic: "",
-    partOfSpeech: "",
-    definition: "The definition was not found.",
-    example: "",
     synonyms: [],
     meanings: [],
   };
@@ -159,7 +157,11 @@ export const googleRequest = (payload) => {
 
       termData.meanings.forEach((singleMeaningData) => {
         let singleMeaning = {};
-        let definitionData = singleMeaningData.definitions[0];
+        let randomDefinitionIndex = Math.floor(
+          Math.random() * singleMeaningData.definitions.length
+        );
+        let definitionData =
+          singleMeaningData.definitions[randomDefinitionIndex];
 
         singleMeaning.definition = definitionData.definition;
 
@@ -175,8 +177,6 @@ export const googleRequest = (payload) => {
 
         filteredResponse.meanings.push(singleMeaning);
       });
-
-      console.log(filteredResponse.synonyms);
 
       return filteredResponse;
     })

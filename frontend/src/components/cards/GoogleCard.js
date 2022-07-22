@@ -92,9 +92,6 @@ const GoogleCard = (props) => {
   const [result, setResult] = useState({
     title: "loading...",
     phonetic: "",
-    partOfSpeech: "",
-    definition: "loading...",
-    example: "",
     synonyms: [],
     meanings: [],
   });
@@ -134,8 +131,6 @@ const GoogleCard = (props) => {
       <LinkedText text={`[${synonym}]`} />
     </Box>
   ));
-
-  console.log(synonymsList);
 
   return (
     <ThemeProvider theme={wikiTheme}>
