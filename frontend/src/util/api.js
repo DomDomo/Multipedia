@@ -133,3 +133,47 @@ export const wikiRequest = async (payload) => {
     console.error(err);
   }
 };
+
+export const googleRequest = (payload) => {
+  const googleDictURL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
+
+  let filteredResponse = {
+    title: "Sorry :(",
+    phonetic: "",
+    partOfSpeech: "",
+    definition: "The definition was not found.",
+    example: "",
+    synonyms: [],
+  };
+
+  return axios
+    .get(googleDictURL + payload)
+    .then((res) => {
+      // TODO
+      // Return a list of definitions and displaya all of them.
+
+      const termData = res.data[0];
+
+      filteredResponse.title = termData.word;
+      filteredResponse.phonetic = termData.phonetic;
+
+      const meaningData = termData.meanings[0];
+      const definitionData = meaningData.definitions[0];
+
+      filteredResponse.definition = definitionData.definition;
+
+      if ("example" in definitionData)
+        filteredResponse.example = definitionData.example;
+
+      if ("synonyms" in meaningData)
+        filteredResponse.synonyms = meaningData.synonyms.slice(0, 3);
+
+      filteredResponse.partOfSpeech = meaningData.partOfSpeech;
+
+      return filteredResponse;
+    })
+    .catch((err) => {
+      console.error(err);
+      return filteredResponse;
+    });
+};

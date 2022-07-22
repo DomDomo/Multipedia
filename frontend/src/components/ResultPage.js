@@ -4,8 +4,9 @@ import { Box, Grid, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
 import LogoBar from "./LogoBar";
-import UrbanCard from "./UrbanCard";
-import WikiCard from "./WikiCard";
+import UrbanCard from "./cards/UrbanCard";
+import WikiCard from "./cards/WikiCard";
+import GoogleCard from "./cards/GoogleCard";
 
 const ResultPage = () => {
   const { state } = useLocation();
@@ -36,6 +37,9 @@ const ResultPage = () => {
               alignItems="center"
               justifyContent="center"
             >
+              <Grid item xs={10} md={5}>
+                <GoogleCard search={search} />
+              </Grid>
               <Grid item xs={10} md={5}>
                 <UrbanCard search={search} />
               </Grid>
