@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const urbanRequest = (payload) => {
+export const urbanRequest = async (payload) => {
   const options = {
     method: "GET",
     url: "https://mashape-community-urban-dictionary.p.rapidapi.com/define",
@@ -11,25 +11,28 @@ export const urbanRequest = (payload) => {
     },
   };
 
-  return axios
-    .request(options)
-    .then((res) => {
-      if (res.data["list"].length <= 0) {
-        return {
-          word: String("¯\\_(ツ)_/¯"),
-          definition: `Sorry, couldn't find: ${payload}`,
-          example: "",
-        };
-      }
-      let firstItem = res.data["list"][0];
-      let filteredResponse = {
-        word: firstItem["word"],
-        definition: firstItem["definition"],
-        example: firstItem["example"],
-      };
+  let filteredResponse = {
+    word: "¯\\_(ツ)_/¯",
+    example: "",
+  };
+
+  try {
+    const urbanResponse = await axios.request(options);
+    if (urbanResponse.data["list"].length <= 0) {
       return filteredResponse;
-    })
-    .catch((err) => console.error(err));
+    }
+    let firstItem = urbanResponse.data["list"][0];
+
+    filteredResponse.word = firstItem["word"];
+    filteredResponse.definition = firstItem["definition"];
+    filteredResponse.example = firstItem["example"];
+
+    return filteredResponse;
+  } catch (err) {
+    console.error(err);
+  }
+
+  return filteredResponse;
 };
 
 const findNestedLinks = (text) => {
@@ -99,7 +102,10 @@ export const wikiRequest = async (payload) => {
   const wikiLinkURL =
     "https://en.wikipedia.org/w/api.php?origin=*&format=json&action=parse&prop=wikitext&section=0&page=";
 
-  let filteredResponse = {};
+  let filteredResponse = {
+    title: "HTTP 404",
+    content: "See more at: [404]",
+  };
 
   try {
     const titlesResponse = await axios.get(wikiTitlesURL);
@@ -128,14 +134,14 @@ export const wikiRequest = async (payload) => {
       );
       filteredResponse.content = betterMayReferToContent;
     }
-
-    return filteredResponse;
   } catch (err) {
     console.error(err);
   }
+
+  return filteredResponse;
 };
 
-export const googleRequest = (payload) => {
+export const googleRequest = async (payload) => {
   const googleDictURL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
   let filteredResponse = {
@@ -145,43 +151,39 @@ export const googleRequest = (payload) => {
     meanings: [],
   };
 
-  return axios
-    .get(googleDictURL + payload)
-    .then((res) => {
-      const termData = res.data[0];
+  try {
+    const googleDictResponse = await axios.get(googleDictURL + payload);
+    const termData = googleDictResponse.data[0];
 
-      console.log(termData);
+    filteredResponse.title = termData.word;
+    filteredResponse.phonetic = termData.phonetic;
 
-      filteredResponse.title = termData.word;
-      filteredResponse.phonetic = termData.phonetic;
+    termData.meanings.forEach((singleMeaningData) => {
+      let singleMeaning = {};
+      let randomDefinitionIndex = Math.floor(
+        Math.random() * singleMeaningData.definitions.length
+      );
+      let definitionData = singleMeaningData.definitions[randomDefinitionIndex];
 
-      termData.meanings.forEach((singleMeaningData) => {
-        let singleMeaning = {};
-        let randomDefinitionIndex = Math.floor(
-          Math.random() * singleMeaningData.definitions.length
+      singleMeaning.definition = definitionData.definition;
+
+      if ("example" in definitionData)
+        singleMeaning.example = definitionData.example;
+
+      if ("synonyms" in singleMeaningData)
+        filteredResponse.synonyms = filteredResponse.synonyms.concat(
+          singleMeaningData.synonyms.slice(0, 3)
         );
-        let definitionData =
-          singleMeaningData.definitions[randomDefinitionIndex];
 
-        singleMeaning.definition = definitionData.definition;
+      singleMeaning.partOfSpeech = singleMeaningData.partOfSpeech;
 
-        if ("example" in definitionData)
-          singleMeaning.example = definitionData.example;
-
-        if ("synonyms" in singleMeaningData)
-          filteredResponse.synonyms = filteredResponse.synonyms.concat(
-            singleMeaningData.synonyms.slice(0, 3)
-          );
-
-        singleMeaning.partOfSpeech = singleMeaningData.partOfSpeech;
-
-        filteredResponse.meanings.push(singleMeaning);
-      });
-
-      return filteredResponse;
-    })
-    .catch((err) => {
-      console.error(err);
-      return filteredResponse;
+      filteredResponse.meanings.push(singleMeaning);
     });
+
+    console.log(filteredResponse);
+  } catch (err) {
+    console.error(err);
+  }
+
+  return filteredResponse;
 };
