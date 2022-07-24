@@ -1,5 +1,50 @@
 import axios from "axios";
 
+export const googleRequest = async (payload) => {
+  const googleDictURL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
+
+  let filteredResponse = {
+    title: "Sorry :(",
+    phonetic: "",
+    synonyms: [],
+    meanings: [],
+  };
+
+  try {
+    const googleDictResponse = await axios.get(googleDictURL + payload);
+    const termData = googleDictResponse.data[0];
+
+    filteredResponse.title = termData.word;
+    filteredResponse.phonetic = termData.phonetic;
+
+    termData.meanings.forEach((singleMeaningData) => {
+      let singleMeaning = {};
+      let randomDefinitionIndex = Math.floor(
+        Math.random() * singleMeaningData.definitions.length
+      );
+      let definitionData = singleMeaningData.definitions[randomDefinitionIndex];
+
+      singleMeaning.definition = definitionData.definition;
+
+      if ("example" in definitionData)
+        singleMeaning.example = definitionData.example;
+
+      if ("synonyms" in singleMeaningData)
+        filteredResponse.synonyms = filteredResponse.synonyms.concat(
+          singleMeaningData.synonyms.slice(0, 3)
+        );
+
+      singleMeaning.partOfSpeech = singleMeaningData.partOfSpeech;
+
+      filteredResponse.meanings.push(singleMeaning);
+    });
+  } catch (err) {
+    console.error(err);
+  }
+
+  return filteredResponse;
+};
+
 export const urbanRequest = async (payload) => {
   const options = {
     method: "GET",
@@ -141,46 +186,15 @@ export const wikiRequest = async (payload) => {
   return filteredResponse;
 };
 
-export const googleRequest = async (payload) => {
-  const googleDictURL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
-
+export const twitterRequest = async (payload) => {
   let filteredResponse = {
-    title: "Sorry :(",
-    phonetic: "",
-    synonyms: [],
-    meanings: [],
+    title: payload,
+    tweets: [],
   };
 
   try {
-    const googleDictResponse = await axios.get(googleDictURL + payload);
-    const termData = googleDictResponse.data[0];
-
-    filteredResponse.title = termData.word;
-    filteredResponse.phonetic = termData.phonetic;
-
-    termData.meanings.forEach((singleMeaningData) => {
-      let singleMeaning = {};
-      let randomDefinitionIndex = Math.floor(
-        Math.random() * singleMeaningData.definitions.length
-      );
-      let definitionData = singleMeaningData.definitions[randomDefinitionIndex];
-
-      singleMeaning.definition = definitionData.definition;
-
-      if ("example" in definitionData)
-        singleMeaning.example = definitionData.example;
-
-      if ("synonyms" in singleMeaningData)
-        filteredResponse.synonyms = filteredResponse.synonyms.concat(
-          singleMeaningData.synonyms.slice(0, 3)
-        );
-
-      singleMeaning.partOfSpeech = singleMeaningData.partOfSpeech;
-
-      filteredResponse.meanings.push(singleMeaning);
-    });
-
-    console.log(filteredResponse);
+    const twitterResponse = await axios.get(`/twit/${payload}`);
+    filteredResponse.tweets = twitterResponse.data.tweets;
   } catch (err) {
     console.error(err);
   }

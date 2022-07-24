@@ -7,6 +7,7 @@ import LogoBar from "./LogoBar";
 import UrbanCard from "./cards/UrbanCard";
 import WikiCard from "./cards/WikiCard";
 import GoogleCard from "./cards/GoogleCard";
+import TwitterCard from "./cards/TwitterCard";
 
 const ResultPage = () => {
   const { state } = useLocation();
@@ -45,6 +46,9 @@ const ResultPage = () => {
               </Grid>
               <Grid item xs={10} md={5}>
                 <WikiCard search={search} />
+              </Grid>
+              <Grid item xs={10} md={5}>
+                <TwitterCard search={search} />
               </Grid>
             </Grid>
           </Grid>

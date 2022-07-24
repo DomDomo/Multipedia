@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('multipedia.urls')),
     path('urban/', include('urban.urls')),
+    path('twit/', include('twit.urls')),
 ]

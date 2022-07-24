@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'multipedia',
-    'urban'
+    'urban',
+    'twit'
 ]
 
 MIDDLEWARE = [
