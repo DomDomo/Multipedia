@@ -11,7 +11,7 @@ import { Grid } from "@mui/material";
 import { Interweave } from "interweave";
 
 export default function Tweet(props) {
-  const tweetLink = `https://twitter.com/twitter/status/${props.result.id_str}`;
+  const tweetLink = `https://twitter.com/twitter/status/${props.result.id}`;
 
   const handleRealTweetRedirect = () => {
     let selection = window.getSelection().toString();
@@ -19,7 +19,7 @@ export default function Tweet(props) {
     if (!selection) window.open(tweetLink, "_blank");
   };
 
-  const highlightedTermText = props.result.full_text.replace(
+  const highlightedTermText = props.result.text.replace(
     new RegExp(props.search, "gi"),
     (str) => `<b>${str}</b>`
   );
@@ -40,12 +40,12 @@ export default function Tweet(props) {
         avatar={
           <Avatar
             sx={{ width: 32, height: 32 }}
-            src={props.result.user.profile_image_url}
+            src={props.result.profile_image}
           ></Avatar>
         }
         title={
           <Typography sx={{ fontSize: 14, marginLeft: "-8px" }}>
-            {props.result.user.name}
+            {props.result.name}
           </Typography>
         }
         subheader={
@@ -57,7 +57,7 @@ export default function Tweet(props) {
               color: "#8B98A5",
             }}
           >
-            @{props.result.user.screen_name}
+            @{props.result.screen_name}
           </Typography>
         }
       />
@@ -81,13 +81,13 @@ export default function Tweet(props) {
         >
           <Grid item>
             <Typography sx={{ fontSize: 12 }} color="#8B98A5">
-              {props.result.created_at}
+              {props.result.date}
             </Typography>
           </Grid>
           <Grid item display="flex" alignItems="center">
             <FavoriteBorderIcon sx={{ fontSize: 20, marginRight: 0.5 }} />
             <Typography sx={{ fontSize: 12 }} color="#8B98A5">
-              {props.result.favorite_count}
+              {props.result.likes}
             </Typography>
           </Grid>
         </Grid>

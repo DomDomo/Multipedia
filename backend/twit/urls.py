@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import test_view
+from .views import twitter_api_view
 
 urlpatterns = [
-    path('<str:payload>/', test_view)
+    path('<str:payload>/', twitter_api_view)
 ]
