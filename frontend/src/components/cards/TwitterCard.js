@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Twitter from "../../icons/twitter.svg";
 
 import {
-  Box,
   Card,
   CardContent,
   CardHeader,
@@ -12,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { twitterRequest } from "../../util/api";
-import LinkedText from "../LinkedText";
+import Tweet from "./Tweet";
 
 const wikiTheme = createTheme({
   typography: {
@@ -44,6 +43,16 @@ const wikiTheme = createTheme({
         },
       },
     },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          paddingBottom: 0,
+          "&:last-child": {
+            paddingBottom: 0,
+          },
+        },
+      },
+    },
     MuiLink: {
       styleOverrides: {
         root: {
@@ -59,10 +68,6 @@ const wikiTheme = createTheme({
     },
   },
 });
-
-const GoogleMeaning = (props) => {
-  return <Typography variant="body1">{props.result}</Typography>;
-};
 
 const TwitterCard = (props) => {
   const [result, setResult] = useState({
@@ -81,17 +86,14 @@ const TwitterCard = (props) => {
     );
   };
 
-  const meaningList = result.tweets.map((meaning, i) => {
-    return <GoogleMeaning key={i} result={meaning} />;
+  const tweetList = result.tweets.map((meaning, i) => {
+    return <Tweet key={i} result={meaning} search={props.search} />;
   });
-
-  const singleMeaning = <GoogleMeaning result={result.tweets[0]} num="no" />;
 
   return (
     <ThemeProvider theme={wikiTheme}>
       <Card>
         <CardHeader
-          sx={{ paddingBottom: 3 }}
           action={
             <CardMedia
               onClick={handleRealWebsiteRedirect}
@@ -102,10 +104,7 @@ const TwitterCard = (props) => {
           }
           title={<Typography variant="h5">{result.title}</Typography>}
         />
-        <CardContent sx={{ paddingTop: 0 }}>
-          {result.tweets.length === 1 && singleMeaning}
-          {result.tweets.length > 1 && meaningList}
-        </CardContent>
+        <CardContent sx={{ padding: 0 }}>{tweetList}</CardContent>
       </Card>
     </ThemeProvider>
   );

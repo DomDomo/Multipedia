@@ -33,7 +33,8 @@ def test_view(request, payload):
 
         # this is where the fun actually starts :)
         for tweet in ts.search_tweets_iterable(tso):
-            filtered_tweet = '@%s tweeted: %s' % ( tweet['user']['screen_name'], tweet['full_text'] )
+            #filtered_tweet = '@%s tweeted: %s' % ( tweet['user']['screen_name'], tweet['full_text'] )
+            filtered_tweet = tweet
             tweets.append(filtered_tweet)
     except TwitterSearchException as e: # take care of all those ugly errors if there are some
         print(e)

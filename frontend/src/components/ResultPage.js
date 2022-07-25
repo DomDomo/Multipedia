@@ -24,7 +24,7 @@ const ResultPage = () => {
           direction="column"
           alignItems="center"
           justifyContent="center"
-          style={{ minHeight: "70vh" }}
+          style={{ minHeight: "70vh", marginBottom: 20 }}
         >
           <Grid item xs={12}>
             <Typography variant="h4" align="center" sx={{ marginY: 3 }}>
