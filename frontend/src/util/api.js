@@ -46,33 +46,19 @@ export const googleRequest = async (payload) => {
 };
 
 export const urbanRequest = async (payload) => {
-  const options = {
-    method: "GET",
-    url: "https://mashape-community-urban-dictionary.p.rapidapi.com/define",
-    params: { term: payload },
-    headers: {
-      "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
-      "X-RapidAPI-Host": "mashape-community-urban-dictionary.p.rapidapi.com",
-    },
-  };
-
   let filteredResponse = {
     word: "¯\\_(ツ)_/¯",
-    example: "",
   };
 
   try {
-    const urbanResponse = await axios.request(options);
-    if (urbanResponse.data["list"].length <= 0) {
-      return filteredResponse;
-    }
-    let firstItem = urbanResponse.data["list"][0];
+    const urbanResponse = await axios.get(`/urban/${payload}/`);
+    const bestDefinition = urbanResponse.data["definitions"];
 
-    filteredResponse.word = firstItem["word"];
-    filteredResponse.definition = firstItem["definition"];
-    filteredResponse.example = firstItem["example"];
+    if (!bestDefinition) return filteredResponse;
 
-    return filteredResponse;
+    filteredResponse.word = bestDefinition[0]["word"];
+    filteredResponse.definition = bestDefinition[0]["definition"];
+    filteredResponse.example = bestDefinition[0]["example"];
   } catch (err) {
     console.error(err);
   }
@@ -193,7 +179,7 @@ export const twitterRequest = async (payload) => {
   };
 
   try {
-    const twitterResponse = await axios.get(`/twit/${payload}`);
+    const twitterResponse = await axios.get(`/twit/${payload}/`);
     filteredResponse.tweets = twitterResponse.data.tweets;
   } catch (err) {
     console.error(err);

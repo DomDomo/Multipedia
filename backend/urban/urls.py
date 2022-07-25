@@ -1,6 +1,4 @@
 from django.urls import path
-from .views import UrbanSearchAPIView
+from .views import urban_api_view
 
-urlpatterns = [
-    path('', UrbanSearchAPIView.as_view()),
-]
+urlpatterns = [path("<str:payload>/", urban_api_view)]

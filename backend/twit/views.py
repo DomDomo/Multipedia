@@ -2,19 +2,21 @@ from django.http import JsonResponse
 from datetime import datetime
 from TwitterSearch import *
 
-from dotenv import load_dotenv
-import os
+from dotenv import dotenv_values
 
-load_dotenv()
+config = dotenv_values(".env")
 
 
-def twitter_request(phrase):
+TWEET_NUM = 3
+
+
+def twitter_request(payload):
     tweets = []
 
     try:
         tso = TwitterSearchOrder()
 
-        tso.set_keywords([phrase, "-filter:links", "-filter:quote"])
+        tso.set_keywords([payload, "-filter:links", "-filter:quote"])
         tso.set_language("en")
 
         tso.set_result_type("popular")
@@ -25,10 +27,10 @@ def twitter_request(phrase):
         tso.arguments.update({"tweet_mode": "extended"})
 
         ts = TwitterSearch(
-            consumer_key=os.getenv("TWITTER_API_KEY"),
-            consumer_secret=os.getenv("TWITTER_API_KEY_SECRET"),
-            access_token=os.getenv("TWITTER_ACCESS_TOKEN"),
-            access_token_secret=os.getenv("TWITTER_TOKEN_SECRET"),
+            consumer_key=config["TWITTER_API_KEY"],
+            consumer_secret=config["TWITTER_API_KEY_SECRET"],
+            access_token=config["TWITTER_ACCESS_TOKEN"],
+            access_token_secret=config["TWITTER_TOKEN_SECRET"],
         )
 
         for tweet in ts.search_tweets_iterable(tso):
@@ -47,7 +49,7 @@ def fix_date_style(tweet_date):
     return styled_datetime
 
 
-def get_formatted_tweets(payload):
+def get_tweets(payload):
     full_tweets = twitter_request(payload)
 
     formatted_tweets = []
@@ -76,9 +78,9 @@ def get_formatted_tweets(payload):
         lambda tweet: {**tweet, "likes": f'{tweet["likes"]:,}'}, sorted_tweets
     )
 
-    return list(styled_like_tweets)[:3]
+    return list(styled_like_tweets)[:TWEET_NUM]
 
 
 def twitter_api_view(request, payload):
-    return_tweets = get_formatted_tweets(payload)
-    return JsonResponse({"tweets": return_tweets})
+    formatted_tweets = get_tweets(payload)
+    return JsonResponse({"tweets": formatted_tweets})
