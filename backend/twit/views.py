@@ -37,7 +37,7 @@ def twitter_request(payload):
             tweets.append(tweet)
 
     except TwitterSearchException as e:
-        print(e)
+        print("Twitter API exception: ", e)
 
     return tweets
 

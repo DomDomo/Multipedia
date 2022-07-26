@@ -129,7 +129,7 @@ def get_wiki(payload):
             filteredResponse["content"] = better_may_refer_to
 
     except Exception as e:
-        print(e)
+        print("Wikipedia API exception: ", e)
 
     return filteredResponse
 

@@ -22,25 +22,28 @@ def urban_request(payload):
 
 
 def get_definitions(payload):
-    full_definitions = urban_request(payload)
-
     formatted_definitions = []
 
-    for definition in full_definitions:
-        formatted_definitions.append(
-            {
-                "word": definition["word"],
-                "definition": definition["definition"],
-                "example": definition["example"],
-                "likes": definition["thumbs_up"],
-            }
-        )
+    try:
+        full_definitions = urban_request(payload)
 
-    # !!! Unused due to relevance being more imporant
-    # Sort urban definitions by like count
-    # sorted_definitions = sorted(
-    #     formatted_definitions, key=lambda d: d["likes"], reverse=True
-    # )
+        for definition in full_definitions:
+            formatted_definitions.append(
+                {
+                    "word": definition["word"],
+                    "definition": definition["definition"],
+                    "example": definition["example"],
+                    "likes": definition["thumbs_up"],
+                }
+            )
+
+        # !!! Unused due to relevance being more imporant
+        # Sort urban definitions by like count
+        # sorted_definitions = sorted(
+        #     formatted_definitions, key=lambda d: d["likes"], reverse=True
+        # )
+    except Exception as e:
+        print("Wikipedia API exception: ", e)
 
     return formatted_definitions[:DEFINITION_NUM]
 

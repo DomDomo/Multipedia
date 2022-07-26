@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "multipedia",
+    "googl",
     "urban",
     "wiki",
     "twit",

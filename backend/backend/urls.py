@@ -19,6 +19,7 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("multipedia.urls")),
+    path("googl/", include("googl.urls")),
     path("urban/", include("urban.urls")),
     path("wiki/", include("wiki.urls")),
     path("twit/", include("twit.urls")),
