@@ -52,6 +52,7 @@ const SearchPage = (props) => {
   let navigate = useNavigate();
 
   const commitSearch = (search) => {
+    if (search.trim() === "") return;
     navigate(`../result/${slugify(search)}`, {
       state: {
         search: search,
