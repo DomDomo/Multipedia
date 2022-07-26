@@ -66,105 +66,16 @@ export const urbanRequest = async (payload) => {
   return filteredResponse;
 };
 
-const findNestedLinks = (text) => {
-  let levels = [];
-  let depth = 0;
-  [...text].forEach((c) => {
-    if (c === "[") depth++;
-    if (depth >= 2) levels.push(c);
-    if (depth >= 2 && c === "]") levels.push("~~");
-    if (c === "]") depth--;
-  });
-  return levels.join("").split("~~").slice(0, -1);
-};
-
-const addLinksToSummary = (summaryData, linkData) => {
-  const doubleBrackets = /\[\[(.*?)\]\]/g;
-  const linksInParagraph = [...linkData.matchAll(doubleBrackets)].map((link) =>
-    link[0].slice(2, -2).split("|").at(-1).trim()
-  );
-
-  // Find all links from received wikitext in the [[SOME_LINK]] format
-  let allLinks = [
-    ...new Set(linksInParagraph.filter((link) => link.length > 1)),
-  ];
-
-  // Filter out all non-relevant links by making sure that the words
-  // in them are the same ones in the summary text
-  let possibleLinks = allLinks.filter((link) => summaryData.includes(link));
-  possibleLinks.sort((a, b) => b.length - a.length);
-
-  // Add link format to the summary text
-  // Cheese is a dairy... => Cheese is a [dairy]...
-  possibleLinks.forEach((link) => {
-    summaryData = summaryData.replace(link, `[${link}]`);
-  });
-
-  // Remove nested links: [Washington, [D.C.]] => [Washington, D.C.]
-  findNestedLinks(summaryData).forEach((link) => {
-    summaryData = summaryData.replace(link, `${link.slice(1, -1)}`);
-  });
-
-  // Fix plural links by adding the "s" in the link
-  summaryData = summaryData.replace(/]s/g, "s]");
-
-  return summaryData;
-};
-
-const makeMayReferToPage = (allTitles, content) => {
-  let noListContent = content.split("</p>")[0];
-  noListContent = noListContent + "</p>";
-
-  let htmlTitles = "";
-  allTitles.slice(1).forEach((titleData) => {
-    let htmlTitle = `<li>[${titleData["title"]}]</li>`;
-    htmlTitles = htmlTitles.concat("\n", htmlTitle);
-  });
-
-  let listWithLinks = `<ul>${htmlTitles}\n</ul>`;
-
-  return noListContent + listWithLinks;
-};
-
 export const wikiRequest = async (payload) => {
-  const wikiTitlesURL = `https://en.wikipedia.org/w/api.php?origin=*&format=json&action=query&list=search&srsearch=${payload}`;
-
-  const wikiSummaryURL = "https://en.wikipedia.org/api/rest_v1/page/summary/";
-  const wikiLinkURL =
-    "https://en.wikipedia.org/w/api.php?origin=*&format=json&action=parse&prop=wikitext&section=0&page=";
-
   let filteredResponse = {
-    title: "HTTP 404",
-    content: "See more at: [404]",
+    title: "¯\\_(ツ)_/¯",
   };
 
   try {
-    const titlesResponse = await axios.get(wikiTitlesURL);
-    let firstItemTitle = titlesResponse.data["query"]["search"][0]["title"];
-    firstItemTitle = firstItemTitle.replace(/[/]/g, "%2F");
-    const [summaryResponse, linkResponse] = await axios.all([
-      axios.get(wikiSummaryURL + firstItemTitle),
-      axios.get(wikiLinkURL + firstItemTitle),
-    ]);
+    const wikiResponse = await axios.get(`/wiki/${payload}/`);
+    const bestWiki = wikiResponse.data["wiki"];
 
-    const summaryData = summaryResponse.data;
-    const linkData = linkResponse.data["parse"]["wikitext"]["*"];
-
-    let formattedContent = addLinksToSummary(
-      summaryData["extract_html"],
-      linkData
-    );
-
-    filteredResponse.title = summaryData["title"];
-    filteredResponse.content = formattedContent;
-
-    if (summaryData["extract_html"].includes("may refer to:")) {
-      let betterMayReferToContent = makeMayReferToPage(
-        titlesResponse.data["query"]["search"],
-        formattedContent
-      );
-      filteredResponse.content = betterMayReferToContent;
-    }
+    filteredResponse = bestWiki;
   } catch (err) {
     console.error(err);
   }

@@ -17,8 +17,9 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('multipedia.urls')),
-    path('urban/', include('urban.urls')),
-    path('twit/', include('twit.urls')),
+    path("admin/", admin.site.urls),
+    path("api/", include("multipedia.urls")),
+    path("urban/", include("urban.urls")),
+    path("wiki/", include("wiki.urls")),
+    path("twit/", include("twit.urls")),
 ]
