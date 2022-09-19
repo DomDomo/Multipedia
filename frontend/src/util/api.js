@@ -20,14 +20,14 @@ export const googleRequest = async (payload) => {
 
 export const urbanRequest = async (payload) => {
   let filteredResponse = {
-    word: "¯\\_(ツ)_/¯",
+    word: "",
   };
 
   try {
     const urbanResponse = await axios.get(`/urban/${payload}/`);
     const bestDefinition = urbanResponse.data["definitions"];
 
-    if (!bestDefinition) return filteredResponse;
+    if (bestDefinition.length === 0) return filteredResponse;
 
     filteredResponse.word = bestDefinition[0]["word"];
     filteredResponse.definition = bestDefinition[0]["definition"];

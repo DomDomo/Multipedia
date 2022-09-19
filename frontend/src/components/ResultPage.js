@@ -17,7 +17,7 @@ const ResultPage = () => {
   return (
     <Box style={{ width: "100%" }}>
       <LogoBar />
-      <Box sx={{ margin: "0 auto", maxWidth: "80rem", minWidth: "24rem" }}>
+      <Box sx={{ margin: "0 auto", maxWidth: "50rem", minWidth: "24rem" }}>
         <Grid
           container
           spacing={0}
@@ -38,16 +38,16 @@ const ResultPage = () => {
               alignItems="center"
               justifyContent="center"
             >
-              <Grid item xs={10} md={5}>
+              <Grid item xs={10}>
                 <GoogleCard search={search} />
               </Grid>
-              <Grid item xs={10} md={5}>
+              <Grid item xs={10}>
                 <UrbanCard search={search} />
               </Grid>
-              <Grid item xs={10} md={5}>
+              <Grid item xs={10}>
                 <WikiCard search={search} />
               </Grid>
-              <Grid item xs={10} md={5}>
+              <Grid item xs={10}>
                 <TwitterCard search={search} />
               </Grid>
             </Grid>

@@ -81,37 +81,37 @@ const UrbanCard = (props) => {
       "_blank"
     );
   };
-
-  return (
-    <ThemeProvider theme={urbanTheme}>
-      <Card>
-        <CardHeader
-          sx={{ paddingBottom: 1 }}
-          action={
-            <CardMedia
-              onClick={handleRealWebsiteRedirect}
-              height="40"
-              src={Urban}
-              component="img"
-            />
-          }
-          title={
-            <Typography variant="h5" color="#1FA2F3">
-              {result.word}
+  if (result.word.length !== 0)
+    return (
+      <ThemeProvider theme={urbanTheme}>
+        <Card>
+          <CardHeader
+            sx={{ paddingBottom: 1 }}
+            action={
+              <CardMedia
+                onClick={handleRealWebsiteRedirect}
+                height="40"
+                src={Urban}
+                component="img"
+              />
+            }
+            title={
+              <Typography variant="h5" color="#1FA2F3">
+                {result.word}
+              </Typography>
+            }
+          />
+          <CardContent sx={{ paddingTop: 1 }}>
+            <Typography variant="body1" sx={{ mb: 1 }}>
+              <LinkedText text={result.definition} />
             </Typography>
-          }
-        />
-        <CardContent sx={{ paddingTop: 1 }}>
-          <Typography variant="body1" sx={{ mb: 1 }}>
-            <LinkedText text={result.definition} />
-          </Typography>
-          <Typography variant="body2">
-            <LinkedText text={result.example} />
-          </Typography>
-        </CardContent>
-      </Card>
-    </ThemeProvider>
-  );
+            <Typography variant="body2">
+              <LinkedText text={result.example} />
+            </Typography>
+          </CardContent>
+        </Card>
+      </ThemeProvider>
+    );
 };
 
 export default UrbanCard;

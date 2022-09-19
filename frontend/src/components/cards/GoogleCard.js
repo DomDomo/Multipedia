@@ -132,43 +132,45 @@ const GoogleCard = (props) => {
     </Box>
   ));
 
-  return (
-    <ThemeProvider theme={wikiTheme}>
-      <Card>
-        <CardHeader
-          sx={{ paddingBottom: 1 }}
-          action={
-            <CardMedia
-              onClick={handleRealWebsiteRedirect}
-              height="45"
-              src={Google}
-              component="img"
-            />
-          }
-          title={<Typography variant="h5">{result.title}</Typography>}
-          subheader={
-            <Box>
-              <Typography display="block" variant="caption">
-                {result.phonetic}
-              </Typography>
-            </Box>
-          }
-        />
-        <CardContent sx={{ paddingTop: 0, marginLeft: 1 }}>
-          {result.meanings.length === 1 && singleMeaning}
-          {result.meanings.length > 1 && meaningList}
-          {result.synonyms.length > 0 && (
-            <Box sx={{ marginTop: 1 }}>
-              <Typography style={{ color: "#198138" }} variant="caption">
-                Similar:
-              </Typography>
-              {synonymsList}
-            </Box>
-          )}
-        </CardContent>
-      </Card>
-    </ThemeProvider>
-  );
+  // Only rendered if a meaing was found
+  if (result.meanings.length !== 0)
+    return (
+      <ThemeProvider theme={wikiTheme}>
+        <Card>
+          <CardHeader
+            sx={{ paddingBottom: 1 }}
+            action={
+              <CardMedia
+                onClick={handleRealWebsiteRedirect}
+                height="45"
+                src={Google}
+                component="img"
+              />
+            }
+            title={<Typography variant="h5">{result.title}</Typography>}
+            subheader={
+              <Box>
+                <Typography display="block" variant="caption">
+                  {result.phonetic}
+                </Typography>
+              </Box>
+            }
+          />
+          <CardContent sx={{ paddingTop: 0, marginLeft: 1 }}>
+            {result.meanings.length === 1 && singleMeaning}
+            {result.meanings.length > 1 && meaningList}
+            {result.synonyms.length > 0 && (
+              <Box sx={{ marginTop: 1 }}>
+                <Typography style={{ color: "#198138" }} variant="caption">
+                  Similar:
+                </Typography>
+                {synonymsList}
+              </Box>
+            )}
+          </CardContent>
+        </Card>
+      </ThemeProvider>
+    );
 };
 
 export default GoogleCard;

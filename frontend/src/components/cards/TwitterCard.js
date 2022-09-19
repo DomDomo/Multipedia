@@ -90,24 +90,25 @@ const TwitterCard = (props) => {
     return <Tweet key={i} result={meaning} search={props.search} />;
   });
 
-  return (
-    <ThemeProvider theme={wikiTheme}>
-      <Card>
-        <CardHeader
-          action={
-            <CardMedia
-              onClick={handleRealWebsiteRedirect}
-              height="40"
-              src={Twitter}
-              component="img"
-            />
-          }
-          title={<Typography variant="h5">{result.title}</Typography>}
-        />
-        <CardContent sx={{ padding: 0 }}>{tweetList}</CardContent>
-      </Card>
-    </ThemeProvider>
-  );
+  if (result.tweets.length !== 0)
+    return (
+      <ThemeProvider theme={wikiTheme}>
+        <Card>
+          <CardHeader
+            action={
+              <CardMedia
+                onClick={handleRealWebsiteRedirect}
+                height="40"
+                src={Twitter}
+                component="img"
+              />
+            }
+            title={<Typography variant="h5">{result.title}</Typography>}
+          />
+          <CardContent sx={{ padding: 0 }}>{tweetList}</CardContent>
+        </Card>
+      </ThemeProvider>
+    );
 };
 
 export default TwitterCard;
