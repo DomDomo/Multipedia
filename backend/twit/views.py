@@ -43,8 +43,10 @@ def twitter_request(payload):
 
 
 def fix_date_style(tweet_date):
-    normalized_datetime = datetime.strptime(tweet_date, "%a %b %d %H:%M:%S +0000 %Y")
-    styled_datetime = datetime.strftime(normalized_datetime, "%#I:%M %p · %b %d, %Y")
+    normalized_datetime = datetime.strptime(
+        tweet_date, "%a %b %d %H:%M:%S +0000 %Y")
+    styled_datetime = datetime.strftime(
+        normalized_datetime, "%#I:%M %p · %b %d, %Y")
 
     return styled_datetime
 
@@ -83,4 +85,4 @@ def get_tweets(payload):
 
 def twitter_api_view(request, payload):
     formatted_tweets = get_tweets(payload)
-    return JsonResponse({"tweets": formatted_tweets})
+    return JsonResponse({"title": payload, "tweets": formatted_tweets})

@@ -10,7 +10,6 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material";
-import { twitterRequest } from "../../util/api";
 import Tweet from "./Tweet";
 
 const wikiTheme = createTheme({
@@ -76,8 +75,10 @@ const TwitterCard = (props) => {
   });
 
   useEffect(() => {
-    twitterRequest(props.search).then((data) => setResult(data));
-  }, [props.search]);
+    if (Object.keys(props.twitter).length !== 0) setResult(props.twitter);
+  }, [props.twitter]);
+
+  console.log(result);
 
   const handleRealWebsiteRedirect = () => {
     window.open(
@@ -90,25 +91,24 @@ const TwitterCard = (props) => {
     return <Tweet key={i} result={meaning} search={props.search} />;
   });
 
-  if (result.tweets.length !== 0)
-    return (
-      <ThemeProvider theme={wikiTheme}>
-        <Card>
-          <CardHeader
-            action={
-              <CardMedia
-                onClick={handleRealWebsiteRedirect}
-                height="40"
-                src={Twitter}
-                component="img"
-              />
-            }
-            title={<Typography variant="h5">{result.title}</Typography>}
-          />
-          <CardContent sx={{ padding: 0 }}>{tweetList}</CardContent>
-        </Card>
-      </ThemeProvider>
-    );
+  return (
+    <ThemeProvider theme={wikiTheme}>
+      <Card>
+        <CardHeader
+          action={
+            <CardMedia
+              onClick={handleRealWebsiteRedirect}
+              height="40"
+              src={Twitter}
+              component="img"
+            />
+          }
+          title={<Typography variant="h5">{result.title}</Typography>}
+        />
+        <CardContent sx={{ padding: 0 }}>{tweetList}</CardContent>
+      </Card>
+    </ThemeProvider>
+  );
 };
 
 export default TwitterCard;

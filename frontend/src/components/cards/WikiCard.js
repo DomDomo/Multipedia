@@ -11,7 +11,6 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material";
-import { wikiRequest } from "../../util/api";
 import LinkMatcher from "../../util/LinkMatcher";
 
 const wikiTheme = createTheme({
@@ -70,8 +69,8 @@ const WikiCard = (props) => {
   });
 
   useEffect(() => {
-    wikiRequest(props.search).then((data) => setResult(data));
-  }, [props.search]);
+    if (Object.keys(props.wiki).length !== 0) setResult(props.wiki);
+  }, [props.wiki]);
 
   const handleRealWebsiteRedirect = () => {
     window.open(`https://en.wikipedia.org/wiki/${result.title}`, "_blank");

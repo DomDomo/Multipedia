@@ -11,7 +11,6 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material";
-import { urbanRequest } from "../../util/api";
 import LinkedText from "../LinkedText";
 
 const urbanTheme = createTheme({
@@ -72,8 +71,8 @@ const UrbanCard = (props) => {
   });
 
   useEffect(() => {
-    urbanRequest(props.search).then((data) => setResult(data));
-  }, [props.search]);
+    if (Object.keys(props.urban).length !== 0) setResult(props.urban);
+  }, [props.urban]);
 
   const handleRealWebsiteRedirect = () => {
     window.open(
@@ -81,37 +80,37 @@ const UrbanCard = (props) => {
       "_blank"
     );
   };
-  if (result.word.length !== 0)
-    return (
-      <ThemeProvider theme={urbanTheme}>
-        <Card>
-          <CardHeader
-            sx={{ paddingBottom: 1 }}
-            action={
-              <CardMedia
-                onClick={handleRealWebsiteRedirect}
-                height="40"
-                src={Urban}
-                component="img"
-              />
-            }
-            title={
-              <Typography variant="h5" color="#1FA2F3">
-                {result.word}
-              </Typography>
-            }
-          />
-          <CardContent sx={{ paddingTop: 1 }}>
-            <Typography variant="body1" sx={{ mb: 1 }}>
-              <LinkedText text={result.definition} />
+
+  return (
+    <ThemeProvider theme={urbanTheme}>
+      <Card>
+        <CardHeader
+          sx={{ paddingBottom: 1 }}
+          action={
+            <CardMedia
+              onClick={handleRealWebsiteRedirect}
+              height="40"
+              src={Urban}
+              component="img"
+            />
+          }
+          title={
+            <Typography variant="h5" color="#1FA2F3">
+              {result.word}
             </Typography>
-            <Typography variant="body2">
-              <LinkedText text={result.example} />
-            </Typography>
-          </CardContent>
-        </Card>
-      </ThemeProvider>
-    );
+          }
+        />
+        <CardContent sx={{ paddingTop: 1 }}>
+          <Typography variant="body1" sx={{ mb: 1 }}>
+            <LinkedText text={result.definition} />
+          </Typography>
+          <Typography variant="body2">
+            <LinkedText text={result.example} />
+          </Typography>
+        </CardContent>
+      </Card>
+    </ThemeProvider>
+  );
 };
 
 export default UrbanCard;

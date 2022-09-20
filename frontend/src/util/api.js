@@ -1,16 +1,15 @@
 import axios from "axios";
 
 export const googleRequest = async (payload) => {
-  let filteredResponse = {
-    title: "Sorry :(",
-    phonetic: "",
-    synonyms: [],
-    meanings: [],
-  };
+  let filteredResponse = {};
 
   try {
     const googleDictResponse = await axios.get(`/googl/${payload}/`);
-    filteredResponse = googleDictResponse.data["definition"];
+    const googleDefinition = googleDictResponse.data["definition"];
+
+    if (googleDefinition.meanings.length === 0) return filteredResponse;
+
+    filteredResponse = googleDefinition;
   } catch (err) {
     console.error(err);
   }
@@ -19,9 +18,7 @@ export const googleRequest = async (payload) => {
 };
 
 export const urbanRequest = async (payload) => {
-  let filteredResponse = {
-    word: "",
-  };
+  let filteredResponse = {};
 
   try {
     const urbanResponse = await axios.get(`/urban/${payload}/`);
@@ -40,9 +37,7 @@ export const urbanRequest = async (payload) => {
 };
 
 export const wikiRequest = async (payload) => {
-  let filteredResponse = {
-    title: "¯\\_(ツ)_/¯",
-  };
+  let filteredResponse = {};
 
   try {
     const wikiResponse = await axios.get(`/wiki/${payload}/`);
@@ -57,17 +52,20 @@ export const wikiRequest = async (payload) => {
 };
 
 export const twitterRequest = async (payload) => {
-  let filteredResponse = {
-    title: payload,
-    tweets: [],
-  };
+  let filteredResponse = {};
 
   try {
     const twitterResponse = await axios.get(`/twit/${payload}/`);
-    filteredResponse.tweets = twitterResponse.data.tweets;
+    const twitterTweets = twitterResponse.data;
+
+    if (twitterTweets.tweets.length === 0) return filteredResponse;
+
+    filteredResponse = twitterTweets;
   } catch (err) {
     console.error(err);
   }
+
+  console.log("APi", filteredResponse);
 
   return filteredResponse;
 };

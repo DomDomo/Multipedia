@@ -11,7 +11,6 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material";
-import { googleRequest } from "../../util/api";
 import LinkedText from "../LinkedText";
 
 const wikiTheme = createTheme({
@@ -97,8 +96,8 @@ const GoogleCard = (props) => {
   });
 
   useEffect(() => {
-    googleRequest(props.search).then((data) => setResult(data));
-  }, [props.search]);
+    if (Object.keys(props.google).length !== 0) setResult(props.google);
+  }, [props.google]);
 
   const handleRealWebsiteRedirect = () => {
     window.open(
@@ -132,45 +131,43 @@ const GoogleCard = (props) => {
     </Box>
   ));
 
-  // Only rendered if a meaing was found
-  if (result.meanings.length !== 0)
-    return (
-      <ThemeProvider theme={wikiTheme}>
-        <Card>
-          <CardHeader
-            sx={{ paddingBottom: 1 }}
-            action={
-              <CardMedia
-                onClick={handleRealWebsiteRedirect}
-                height="45"
-                src={Google}
-                component="img"
-              />
-            }
-            title={<Typography variant="h5">{result.title}</Typography>}
-            subheader={
-              <Box>
-                <Typography display="block" variant="caption">
-                  {result.phonetic}
-                </Typography>
-              </Box>
-            }
-          />
-          <CardContent sx={{ paddingTop: 0, marginLeft: 1 }}>
-            {result.meanings.length === 1 && singleMeaning}
-            {result.meanings.length > 1 && meaningList}
-            {result.synonyms.length > 0 && (
-              <Box sx={{ marginTop: 1 }}>
-                <Typography style={{ color: "#198138" }} variant="caption">
-                  Similar:
-                </Typography>
-                {synonymsList}
-              </Box>
-            )}
-          </CardContent>
-        </Card>
-      </ThemeProvider>
-    );
+  return (
+    <ThemeProvider theme={wikiTheme}>
+      <Card>
+        <CardHeader
+          sx={{ paddingBottom: 1 }}
+          action={
+            <CardMedia
+              onClick={handleRealWebsiteRedirect}
+              height="45"
+              src={Google}
+              component="img"
+            />
+          }
+          title={<Typography variant="h5">{result.title}</Typography>}
+          subheader={
+            <Box>
+              <Typography display="block" variant="caption">
+                {result.phonetic}
+              </Typography>
+            </Box>
+          }
+        />
+        <CardContent sx={{ paddingTop: 0, marginLeft: 1 }}>
+          {result.meanings.length === 1 && singleMeaning}
+          {result.meanings.length > 1 && meaningList}
+          {result.synonyms.length > 0 && (
+            <Box sx={{ marginTop: 1 }}>
+              <Typography style={{ color: "#198138" }} variant="caption">
+                Similar:
+              </Typography>
+              {synonymsList}
+            </Box>
+          )}
+        </CardContent>
+      </Card>
+    </ThemeProvider>
+  );
 };
 
 export default GoogleCard;
