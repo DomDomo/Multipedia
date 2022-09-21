@@ -15,6 +15,51 @@ import {
   wikiRequest,
 } from "../util/api";
 import { objectIsEmpty } from "../util/helper";
+import LoadingCard from "./cards/LoadingCard";
+
+const DynamicCard = (props) => {
+  return (
+    <Grid item xs={10}>
+      {!objectIsEmpty(props.load) && props.children}
+    </Grid>
+  );
+};
+
+const WorkingCards = ({ fullResult }) => {
+  return (
+    <Grid container spacing={3} alignItems="center" justifyContent="center">
+      <DynamicCard load={fullResult.google}>
+        <GoogleCard data={fullResult.google} />
+      </DynamicCard>
+      <DynamicCard load={fullResult.urban}>
+        <UrbanCard data={fullResult.urban} />
+      </DynamicCard>
+      <DynamicCard load={fullResult.wiki}>
+        <WikiCard data={fullResult.wiki} />
+      </DynamicCard>
+      <DynamicCard load={fullResult.twitter}>
+        <TwitterCard data={fullResult.twitter} />
+      </DynamicCard>
+    </Grid>
+  );
+};
+
+const LoadingCards = () => {
+  const cards = [];
+  for (let i = 0; i < 4; i++) {
+    cards.push(
+      <Grid item xs={10} key={i}>
+        <LoadingCard even={i % 2 === 0} />
+      </Grid>
+    );
+  }
+
+  return (
+    <Grid container spacing={3} alignItems="center" justifyContent="center">
+      {cards}
+    </Grid>
+  );
+};
 
 const defaultResult = {
   google: {},
@@ -77,6 +122,11 @@ const ResultPage = () => {
     return () => clearInterval(intervalId);
   }, [fullResult.progress]);
 
+  let cards = <WorkingCards fullResult={fullResult} />;
+  if (fullResult === defaultResult) {
+    cards = <LoadingCards />;
+  }
+
   return (
     <Box style={{ width: "100%" }}>
       <LogoBar progress={fullResult.progress} />
@@ -95,28 +145,7 @@ const ResultPage = () => {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Grid
-              container
-              spacing={3}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Grid item xs={10}>
-                <GoogleCard google={fullResult.google} />
-              </Grid>
-              <Grid item xs={10}>
-                <UrbanCard urban={fullResult.urban} />
-              </Grid>
-
-              <Grid item xs={10}>
-                <WikiCard wiki={fullResult.wiki} />
-              </Grid>
-              <Grid item xs={10}>
-                {!objectIsEmpty(fullResult.twitter) && (
-                  <TwitterCard twitter={fullResult.twitter} />
-                )}
-              </Grid>
-            </Grid>
+            {cards}
           </Grid>
         </Grid>
       </Box>

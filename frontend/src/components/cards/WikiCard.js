@@ -62,15 +62,15 @@ const wikiTheme = createTheme({
   },
 });
 
-const WikiCard = (props) => {
+const WikiCard = ({ data }) => {
   const [result, setResult] = useState({
     title: "loading...",
     content: "loading...",
   });
 
   useEffect(() => {
-    if (Object.keys(props.wiki).length !== 0) setResult(props.wiki);
-  }, [props.wiki]);
+    if (Object.keys(data).length !== 0) setResult(data);
+  }, [data]);
 
   const handleRealWebsiteRedirect = () => {
     window.open(`https://en.wikipedia.org/wiki/${result.title}`, "_blank");

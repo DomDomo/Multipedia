@@ -87,7 +87,7 @@ const GoogleMeaning = (props) => {
   );
 };
 
-const GoogleCard = (props) => {
+const GoogleCard = ({ data }) => {
   const [result, setResult] = useState({
     title: "loading...",
     phonetic: "",
@@ -96,8 +96,8 @@ const GoogleCard = (props) => {
   });
 
   useEffect(() => {
-    if (Object.keys(props.google).length !== 0) setResult(props.google);
-  }, [props.google]);
+    if (Object.keys(data).length !== 0) setResult(data);
+  }, [data]);
 
   const handleRealWebsiteRedirect = () => {
     window.open(

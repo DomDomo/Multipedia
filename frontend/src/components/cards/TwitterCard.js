@@ -68,15 +68,15 @@ const wikiTheme = createTheme({
   },
 });
 
-const TwitterCard = (props) => {
+const TwitterCard = ({ data }) => {
   const [result, setResult] = useState({
     title: "loading...",
     tweets: [],
   });
 
   useEffect(() => {
-    if (Object.keys(props.twitter).length !== 0) setResult(props.twitter);
-  }, [props.twitter]);
+    if (Object.keys(data).length !== 0) setResult(data);
+  }, [data]);
 
   const handleRealWebsiteRedirect = () => {
     window.open(
@@ -86,7 +86,7 @@ const TwitterCard = (props) => {
   };
 
   const tweetList = result.tweets.map((meaning, i) => {
-    return <Tweet key={i} result={meaning} search={props.search} />;
+    return <Tweet key={i} result={meaning} search={data.title} />;
   });
 
   return (

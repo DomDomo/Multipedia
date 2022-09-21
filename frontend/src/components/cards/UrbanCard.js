@@ -63,7 +63,7 @@ const urbanTheme = createTheme({
   },
 });
 
-const UrbanCard = (props) => {
+const UrbanCard = ({ data }) => {
   const [result, setResult] = useState({
     word: "loading...",
     example: "loading...",
@@ -71,8 +71,8 @@ const UrbanCard = (props) => {
   });
 
   useEffect(() => {
-    if (Object.keys(props.urban).length !== 0) setResult(props.urban);
-  }, [props.urban]);
+    if (Object.keys(data).length !== 0) setResult(data);
+  }, [data]);
 
   const handleRealWebsiteRedirect = () => {
     window.open(
