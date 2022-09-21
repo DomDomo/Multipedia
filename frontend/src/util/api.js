@@ -65,7 +65,5 @@ export const twitterRequest = async (payload) => {
     console.error(err);
   }
 
-  console.log("APi", filteredResponse);
-
   return filteredResponse;
 };

@@ -78,8 +78,6 @@ const TwitterCard = (props) => {
     if (Object.keys(props.twitter).length !== 0) setResult(props.twitter);
   }, [props.twitter]);
 
-  console.log(result);
-
   const handleRealWebsiteRedirect = () => {
     window.open(
       `https://twitter.com/search?lang=en&q="${result.title}"&src=typed_query&f=top`,

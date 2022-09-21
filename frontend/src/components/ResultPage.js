@@ -14,15 +14,10 @@ import {
   urbanRequest,
   wikiRequest,
 } from "../util/api";
-
-const objectIsEmpty = (obj) => {
-  return Object.keys(obj).length === 0;
-};
+import { objectIsEmpty } from "../util/helper";
 
 const ResultPage = () => {
-  const { state } = useLocation();
-
-  const { search } = state;
+  const { search } = useLocation().state;
 
   const [fullResult, setFullResult] = useState({
     google: {},
@@ -63,9 +58,6 @@ const ResultPage = () => {
       }))
     );
   }, [search]);
-
-  console.log(fullResult.google);
-  console.log(fullResult.twitter);
 
   return (
     <Box style={{ width: "100%" }}>
