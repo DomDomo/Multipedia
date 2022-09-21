@@ -21,7 +21,7 @@ export default function Tweet(props) {
 
   const highlightedTermText = props.result.text.replace(
     new RegExp(props.search, "gi"),
-    (str) => `<b>${str}</b>`
+    (str) => `<u>${str}</u>`
   );
 
   return (

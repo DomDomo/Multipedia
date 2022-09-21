@@ -123,13 +123,16 @@ const ResultPage = () => {
   }, [fullResult.progress]);
 
   let cards = <WorkingCards fullResult={fullResult} />;
-  if (fullResult === defaultResult) {
-    cards = <LoadingCards />;
-  }
+  // if (fullResult === defaultResult) {
+  //   cards = <LoadingCards />;
+  // }
 
   return (
     <Box style={{ width: "100%" }}>
       <LogoBar progress={fullResult.progress} />
+      <Typography variant="h4" align="center" sx={{ marginY: 3 }}>
+        Search for: {search}
+      </Typography>
       <Box sx={{ margin: "0 auto", maxWidth: "45rem", minWidth: "24rem" }}>
         <Grid
           container
@@ -139,11 +142,7 @@ const ResultPage = () => {
           justifyContent="center"
           style={{ minHeight: "70vh", marginBottom: 20 }}
         >
-          <Grid item xs={12}>
-            <Typography variant="h4" align="center" sx={{ marginY: 3 }}>
-              Search for: {search}
-            </Typography>
-          </Grid>
+          <Grid item xs={12}></Grid>
           <Grid item xs={12}>
             {cards}
           </Grid>
