@@ -1,65 +1,10 @@
 import React from "react";
 
-import { Grid, IconButton, InputBase } from "@mui/material";
-import Box from "@mui/material/Box";
-import SearchIcon from "@mui/icons-material/Search";
-
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
-import { slugify } from "../util/helper";
+import { Grid } from "@mui/material";
 import Logo from "./Logo";
+import SearchBar from "./SearchBar";
 
-const SearchBar = (props) => {
-  const [search, setSearch] = useState("");
-
-  const enterKeyPress = (e) => {
-    if (e.keyCode === 13) {
-      props.commitSearch(search);
-    }
-  };
-
-  return (
-    <Box
-      component="span"
-      sx={{
-        p: 2,
-        borderRadius: "16px",
-      }}
-      bgcolor="#1a242e"
-      justifyContent="center"
-    >
-      <InputBase
-        placeholder="What is...?"
-        sx={{ width: "50%", fontSize: 20 }}
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        onKeyDown={enterKeyPress}
-      />
-      <IconButton
-        type="submit"
-        aria-label="search"
-        color="primary"
-        onClick={() => props.commitSearch(search)}
-      >
-        <SearchIcon sx={{ fontSize: 30 }} />
-      </IconButton>
-    </Box>
-  );
-};
-
-const SearchPage = (props) => {
-  let navigate = useNavigate();
-
-  const commitSearch = (search) => {
-    if (search.trim() === "") return;
-    navigate(`../result/${slugify(search)}`, {
-      state: {
-        search: search,
-      },
-    });
-  };
-
+const SearchPage = () => {
   return (
     <Grid
       container
@@ -74,7 +19,7 @@ const SearchPage = (props) => {
         <Logo />
       </Grid>
       <Grid item xs={12} sx={{ width: "100%" }}>
-        <SearchBar commitSearch={commitSearch} />
+        <SearchBar />
       </Grid>
     </Grid>
   );

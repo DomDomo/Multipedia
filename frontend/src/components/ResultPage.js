@@ -44,9 +44,11 @@ const WorkingCards = ({ fullResult }) => {
   );
 };
 
+const skeletonNum = 3;
+
 const LoadingCards = () => {
   const cards = [];
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < skeletonNum; i++) {
     cards.push(
       <Grid item xs={10} key={i}>
         <LoadingCard even={i % 2 === 0} />
@@ -71,6 +73,7 @@ const defaultResult = {
 const icrementNum = 25;
 
 const ResultPage = () => {
+  // @ts-ignore
   const { search } = useLocation().state;
 
   const [fullResult, setFullResult] = useState(defaultResult);
@@ -123,9 +126,9 @@ const ResultPage = () => {
   }, [fullResult.progress]);
 
   let cards = <WorkingCards fullResult={fullResult} />;
-  // if (fullResult === defaultResult) {
-  //   cards = <LoadingCards />;
-  // }
+  if (fullResult === defaultResult) {
+    cards = <LoadingCards />;
+  }
 
   return (
     <Box style={{ width: "100%" }}>
