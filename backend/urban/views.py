@@ -2,6 +2,10 @@ from django.http import JsonResponse
 import requests
 
 from dotenv import dotenv_values
+from rest_framework import generics
+
+from urban.models import UrbanSearch
+from urban.serializers import UrbanSearchSerializer
 
 config = dotenv_values(".env")
 
@@ -51,3 +55,7 @@ def get_definitions(payload):
 def urban_api_view(request, payload):
     urban_definitions = get_definitions(payload)
     return JsonResponse({"definitions": urban_definitions})
+
+class UrbanListAPIView(generics.ListAPIView):
+    queryset = UrbanSearch.objects.all()
+    serializer_class = UrbanSearchSerializer

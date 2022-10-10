@@ -16,6 +16,7 @@ import {
 } from "../util/api";
 import { objectIsEmpty } from "../util/helper";
 import LoadingCard from "./cards/LoadingCard";
+import axios from "axios";
 
 const DynamicCard = (props) => {
   return (
@@ -126,8 +127,20 @@ const ResultPage = () => {
   }, [fullResult.progress]);
 
   let cards = <WorkingCards fullResult={fullResult} />;
-  if (fullResult === defaultResult) {
-    cards = <LoadingCards />;
+  if (fullResult === defaultResult) cards = <LoadingCards />;
+
+  if (fullResult.progress === 100) {
+    console.log(fullResult);
+    axios({
+      method: "post",
+      url: "api/",
+      baseURL: "/",
+      data: {
+        term: search,
+        slug: search,
+        urban_search: fullResult.urban,
+      },
+    });
   }
 
   return (
@@ -143,12 +156,9 @@ const ResultPage = () => {
           direction="column"
           alignItems="center"
           justifyContent="center"
-          style={{ minHeight: "70vh", marginBottom: 20 }}
+          style={{ minHeight: "70vh" }}
         >
-          <Grid item xs={12}></Grid>
-          <Grid item xs={12}>
-            {cards}
-          </Grid>
+          {cards}
         </Grid>
       </Box>
     </Box>

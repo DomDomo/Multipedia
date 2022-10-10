@@ -4,4 +4,4 @@ from .models import UrbanSearch
 class UrbanSearchSerializer(serializers.ModelSerializer):
   class Meta:
     model = UrbanSearch
-    fields = ('search', 'word', 'definition', 'example')
+    fields = ('word', 'definition', 'example')
