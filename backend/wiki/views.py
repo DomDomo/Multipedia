@@ -2,6 +2,13 @@ from django.http import JsonResponse
 import requests
 import re
 
+from wiki.models import WikiSearch
+
+from rest_framework import generics
+
+from wiki.models import WikiSearch
+from wiki.serializers import WikiSearchSerializer
+
 
 WIKI_MAIN_URL = "https://en.wikipedia.org/w/api.php"
 
@@ -137,3 +144,7 @@ def get_wiki(payload):
 def wiki_api_view(request, payload):
     best_wiki = get_wiki(payload)
     return JsonResponse({"wiki": best_wiki})
+
+class WikiListAPIView(generics.ListAPIView):
+    queryset = WikiSearch.objects.all()
+    serializer_class = WikiSearchSerializer
