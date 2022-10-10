@@ -75,7 +75,7 @@ const icrementNum = 25;
 
 const ResultPage = () => {
   // @ts-ignore
-  const { search } = useLocation().state;
+  const { search, slug } = useLocation().state;
 
   const [fullResult, setFullResult] = useState(defaultResult);
 
@@ -137,8 +137,9 @@ const ResultPage = () => {
       baseURL: "/",
       data: {
         term: search,
-        slug: search,
+        slug: slug,
         urban_search: fullResult.urban,
+        wiki_search: fullResult.wiki,
       },
     });
   }

@@ -8,11 +8,14 @@ const SearchBar = () => {
   const [search, setSearch] = useState("");
   let navigate = useNavigate();
 
+  const search_slug = slugify(search);
+
   const commitSearch = (search) => {
     if (search.trim() === "") return;
-    navigate(`../result/${slugify(search)}`, {
+    navigate(`../result/${search_slug}`, {
       state: {
         search: search,
+        slug: search_slug,
       },
     });
   };
