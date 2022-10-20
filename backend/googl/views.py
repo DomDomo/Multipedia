@@ -1,6 +1,12 @@
 from django.http import JsonResponse
 import requests
 
+from rest_framework import generics
+
+from googl.models import GoogleSearch
+from googl.serializers import GoogleSearchSerializer
+
+
 
 GOOGLE_DICT_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/"
 
@@ -57,3 +63,7 @@ def get_meanings(payload):
 def googl_api_view(request, payload):
     google_meanings = get_meanings(payload)
     return JsonResponse({"definition": google_meanings})
+
+class GoogleListAPIView(generics.ListAPIView):
+    queryset = GoogleSearch.objects.all()
+    serializer_class = GoogleSearchSerializer

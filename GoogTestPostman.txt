@@ -1,0 +1,53 @@
+{
+   "term":"Waiting Staff",
+   "slug":"test",
+   "urban_search":{
+      "word":"bingo",
+      "definition":"Something everyone on [the earth] deserves no matter what [race], [religion] sex or country!",
+      "example":"Give me liberty, or [give me death]!\r\n    -Patrick [Henry] before [Virginia] House of Burgesses"
+   },
+   "wiki_search":{
+      "title":"Waiting staff",
+      "content":"<p><b>Waiting staff</b>, <b>waitstaff</b>, <b>waiters</b> (male) / <b>waitresses</b> (female), or <b>servers</b>, are those who work at a [restaurant], a [diner], or a [bar] and sometimes in private homes, attending to customers by supplying them with food and drink as requested. Waiting staff follow rules and guidelines determined by the manager. Waiting staff carry out many different tasks, such as taking orders, food-running, polishing dishes and silverware, helping bus tables and restocking working stations with needed supplies.</p>"
+   },
+   "google_search":{
+      "title":"boomer",
+      "phonetic":"/ˈbʉːmə/",
+      "content": "{\"synonyms\":[\"boomer\",\"sewellel\",\"sewellelbeaver\"],\"meanings\":[{\"definition\":\"Apersonborninthepostwaryears(generallyconsideredintheUnitedStatesandotherAlliedcountriesasbetween1946andtheearly1960s),whentherewasamarkedincreaseinbirthratesthroughouttheWesternworldfollowingthereturnofservicemenattheendofWorldWarII.\",\"partOfSpeech\":\"noun\"},{\"definition\":\"Anadultmalekangaroo.\",\"partOfSpeech\":\"noun\"}]}}"
+   }
+}
+
+{
+   "term":"Waiting Staff",
+   "slug":"peepo",
+   "urban_search":{
+      "word":"bingo",
+      "definition":"Something everyone on [the earth] deserves no matter what [race], [religion] sex or country!",
+      "example":"Give me liberty, or [give me death]!\r\n    -Patrick [Henry] before [Virginia] House of Burgesses"
+   },
+   "wiki_search":{
+      "title":"Waiting staff",
+      "content":"<p><b>Waiting staff</b>, <b>waitstaff</b>, <b>waiters</b> (male) / <b>waitresses</b> (female), or <b>servers</b>, are those who work at a [restaurant], a [diner], or a [bar] and sometimes in private homes, attending to customers by supplying them with food and drink as requested. Waiting staff follow rules and guidelines determined by the manager. Waiting staff carry out many different tasks, such as taking orders, food-running, polishing dishes and silverware, helping bus tables and restocking working stations with needed supplies.</p>"
+   },
+   "google_search":{
+      "title":"boomer",
+      "phonetic":"/ˈbʉːmə/",
+      "content":{
+         "synonyms":[
+            "boomer",
+            "sewellel",
+            "sewellel beaver"
+         ],
+         "meanings":[
+            {
+               "definition":"A person born in the postwar years (generally considered in the United States and other Allied countries as between 1946 and the early 1960s), when there was a marked increase in birthrates throughout the Western world following the return of servicemen at the end of World War II.",
+               "partOfSpeech":"noun"
+            },
+            {
+               "definition":"An adult male kangaroo.",
+               "partOfSpeech":"noun"
+            }
+         ]
+      }
+   }
+}

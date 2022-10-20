@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import GoogleSearch
+class GoogleSearchAdmin(admin.ModelAdmin):
+    list_display = ('title', 'phonetic', 'content')
 
-# Register your models here.
+admin.site.register(GoogleSearch, GoogleSearchAdmin)
