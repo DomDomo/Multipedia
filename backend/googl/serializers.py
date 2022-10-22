@@ -8,7 +8,7 @@ class GoogleSearchSerializer(serializers.ModelSerializer):
   content = serializers.JSONField(binary=True)
   class Meta:
     model = GoogleSearch
-    fields = ('title', 'phonetic', 'content')
+    fields = ('title', 'content')
 
   def to_representation(self, instance):
     google_rep = super(GoogleSearchSerializer, self).to_representation(instance)
