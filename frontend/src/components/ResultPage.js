@@ -130,7 +130,7 @@ const ResultPage = () => {
   if (fullResult === defaultResult) cards = <LoadingCards />;
 
   if (fullResult.progress === 100) {
-    console.log(fullResult);
+    //console.log(JSON.stringify(JSON.stringify(fullResult.twitter)));
     axios({
       method: "post",
       url: "api/",

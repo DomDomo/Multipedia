@@ -2,6 +2,11 @@ from django.http import JsonResponse
 from datetime import datetime
 from TwitterSearch import *
 
+from rest_framework import generics
+
+from twit.models import TwitterSearch as TwitSearch
+from twit.serializers import TwitterSearchSerializer
+
 from dotenv import dotenv_values
 
 config = dotenv_values(".env")
@@ -86,3 +91,7 @@ def get_tweets(payload):
 def twitter_api_view(request, payload):
     formatted_tweets = get_tweets(payload)
     return JsonResponse({"title": payload, "tweets": formatted_tweets})
+
+class TwitterListAPIView(generics.ListAPIView):
+    queryset = TwitSearch.objects.all()
+    serializer_class = TwitterSearchSerializer
