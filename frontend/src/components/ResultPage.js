@@ -13,6 +13,7 @@ import {
   twitterRequest,
   urbanRequest,
   wikiRequest,
+  findDefinition,
 } from "../util/api";
 import { objectIsEmpty, slugify } from "../util/helper";
 import LoadingCard from "./cards/LoadingCard";
@@ -65,6 +66,7 @@ const LoadingCards = () => {
 };
 
 const saveNewResultToDB = (term, newResult) => {
+  if (!newResult.new) return;
   let resultClone = structuredClone(newResult);
 
   let newResultData = {
@@ -89,8 +91,6 @@ const saveNewResultToDB = (term, newResult) => {
     );
   }
 
-  console.log(newResultData);
-
   axios({
     method: "post",
     url: "api/",
@@ -105,6 +105,7 @@ const defaultResult = {
   wiki: {},
   twitter: {},
   progress: 0,
+  new: false,
 };
 const icrementNum = 25;
 
@@ -113,39 +114,58 @@ const ResultPage = () => {
   const { search } = useLocation().state;
 
   const [fullResult, setFullResult] = useState(defaultResult);
+  const [foundResult, setFoundResult] = useState(true);
 
   // API requests
   useEffect(() => {
-    setFullResult(defaultResult);
-    googleRequest(search).then((data) =>
-      setFullResult((fullResult) => ({
-        ...fullResult,
-        google: data,
-        progress: fullResult.progress + icrementNum,
-      }))
-    );
-    urbanRequest(search).then((data) =>
-      setFullResult((fullResult) => ({
-        ...fullResult,
-        urban: data,
-        progress: fullResult.progress + icrementNum,
-      }))
-    );
-    wikiRequest(search).then((data) =>
-      setFullResult((fullResult) => ({
-        ...fullResult,
-        wiki: data,
-        progress: fullResult.progress + icrementNum,
-      }))
-    );
-    twitterRequest(search).then((data) =>
-      setFullResult((fullResult) => ({
-        ...fullResult,
-        twitter: data,
-        progress: fullResult.progress + icrementNum,
-      }))
-    );
-  }, [search]);
+    findDefinition(slugify(search)).then((result) => {
+      if (!objectIsEmpty(result.data)) {
+        const newFullResult = {
+          google: result.data.google_search,
+          urban: result.data.urban_search,
+          wiki: result.data.wiki_search,
+          twitter: result.data.twitter_search,
+          progress: 100,
+          new: false,
+        };
+        setFullResult(newFullResult);
+      } else {
+        setFoundResult(false);
+      }
+    });
+
+    if (!foundResult) {
+      setFullResult({ ...defaultResult, new: true });
+      googleRequest(search).then((data) =>
+        setFullResult((fullResult) => ({
+          ...fullResult,
+          google: data,
+          progress: fullResult.progress + icrementNum,
+        }))
+      );
+      urbanRequest(search).then((data) =>
+        setFullResult((fullResult) => ({
+          ...fullResult,
+          urban: data,
+          progress: fullResult.progress + icrementNum,
+        }))
+      );
+      wikiRequest(search).then((data) =>
+        setFullResult((fullResult) => ({
+          ...fullResult,
+          wiki: data,
+          progress: fullResult.progress + icrementNum,
+        }))
+      );
+      twitterRequest(search).then((data) =>
+        setFullResult((fullResult) => ({
+          ...fullResult,
+          twitter: data,
+          progress: fullResult.progress + icrementNum,
+        }))
+      );
+    }
+  }, [search, foundResult]);
 
   // Progress bar turn off hook
   useEffect(() => {

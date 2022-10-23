@@ -23,12 +23,12 @@ class SearchSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         result = super(SearchSerializer, self).to_representation(instance)
-        return OrderedDict([(key, result[key]) for key in result if result[key] is not None])
+        dic = [(key, result[key]) if result[key] is not None else (key, {}) for key in result]
+        return OrderedDict(dic)
     
     class Meta:
         model = Search
         fields = ('term', 'slug', 'google_search', 'urban_search', 'wiki_search', 'twitter_search')
-        optional_fields = ['google_search', 'urban_search', 'wiki_search', 'twitter_search']
         lookup_field = 'slug'
 
     def create(self, validated_data):

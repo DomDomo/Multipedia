@@ -1,7 +1,6 @@
 from django.urls import path
-from .views import SearchDetailAPIView
-from .views import SearchListCreateAPIView
+from .views import SearchDetailAPIView, SearchListCreateAPIView, SearchExistsAndIsRecent
 urlpatterns = [
     path('', SearchListCreateAPIView.as_view()),
-    path('<slug:slug>/', SearchDetailAPIView.as_view()),
+    path('<slug:slug>/', SearchExistsAndIsRecent.as_view()),
 ]

@@ -54,7 +54,13 @@ export const wikiRequest = async (payload) => {
 };
 
 export const twitterRequest = async (payload) => {
-  let filteredResponse = {};
+  let filteredResponse = {
+    google: {},
+    urban: {},
+    wiki: {},
+    twitter: {},
+    progress: 0,
+  };
 
   try {
     const twitterResponse = await axios.get(`/twit/${payload}/`);
@@ -63,6 +69,19 @@ export const twitterRequest = async (payload) => {
     if (twitterTweets.tweets.length === 0) return filteredResponse;
 
     filteredResponse = twitterTweets;
+  } catch (err) {
+    console.error(err);
+  }
+
+  return filteredResponse;
+};
+
+export const findDefinition = (slug) => {
+  let filteredResponse = {};
+
+  try {
+    const response = axios.get(`/api/${slug}/`);
+    filteredResponse = response;
   } catch (err) {
     console.error(err);
   }
