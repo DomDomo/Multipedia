@@ -14,7 +14,7 @@ import {
   urbanRequest,
   wikiRequest,
 } from "../util/api";
-import { objectIsEmpty } from "../util/helper";
+import { objectIsEmpty, slugify } from "../util/helper";
 import LoadingCard from "./cards/LoadingCard";
 import axios from "axios";
 
@@ -64,6 +64,41 @@ const LoadingCards = () => {
   );
 };
 
+const saveNewResultToDB = (term, newResult) => {
+  let resultClone = structuredClone(newResult);
+
+  let newResultData = {
+    term: term,
+    slug: slugify(term),
+  };
+
+  if (!objectIsEmpty(newResult.google)) {
+    newResultData["google_search"] = resultClone.google;
+    newResultData.google_search.content = JSON.stringify(
+      newResultData.google_search.content
+    );
+  }
+  if (!objectIsEmpty(newResult.urban))
+    newResultData["urban_search"] = resultClone.urban;
+  if (!objectIsEmpty(newResult.wiki))
+    newResultData["wiki_search"] = resultClone.wiki;
+  if (!objectIsEmpty(newResult.twitter)) {
+    newResultData["twitter_search"] = resultClone.twitter;
+    newResultData.twitter_search.tweets = JSON.stringify(
+      newResultData.twitter_search.tweets
+    );
+  }
+
+  console.log(newResultData);
+
+  axios({
+    method: "post",
+    url: "api/",
+    baseURL: "/",
+    data: newResultData,
+  });
+};
+
 const defaultResult = {
   google: {},
   urban: {},
@@ -75,7 +110,7 @@ const icrementNum = 25;
 
 const ResultPage = () => {
   // @ts-ignore
-  const { search, slug } = useLocation().state;
+  const { search } = useLocation().state;
 
   const [fullResult, setFullResult] = useState(defaultResult);
 
@@ -130,18 +165,7 @@ const ResultPage = () => {
   if (fullResult === defaultResult) cards = <LoadingCards />;
 
   if (fullResult.progress === 100) {
-    //console.log(JSON.stringify(JSON.stringify(fullResult.twitter)));
-    axios({
-      method: "post",
-      url: "api/",
-      baseURL: "/",
-      data: {
-        term: search,
-        slug: slug,
-        urban_search: fullResult.urban,
-        wiki_search: fullResult.wiki,
-      },
-    });
+    saveNewResultToDB(search, fullResult);
   }
 
   return (

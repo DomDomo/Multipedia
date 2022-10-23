@@ -90,9 +90,11 @@ const GoogleMeaning = (props) => {
 const GoogleCard = ({ data }) => {
   const [result, setResult] = useState({
     title: "loading...",
-    phonetic: "",
-    synonyms: [],
-    meanings: [],
+    content: {
+      phonetic: "",
+      synonyms: [],
+      meanings: [],
+    },
   });
 
   useEffect(() => {
@@ -106,13 +108,15 @@ const GoogleCard = ({ data }) => {
     );
   };
 
-  const meaningList = result.meanings.map((meaning, i) => {
+  const meaningList = result.content.meanings.map((meaning, i) => {
     return <GoogleMeaning key={i} result={meaning} num={i} />;
   });
 
-  const singleMeaning = <GoogleMeaning result={result.meanings[0]} num="no" />;
+  const singleMeaning = (
+    <GoogleMeaning result={result.content.meanings[0]} num="no" />
+  );
 
-  const synonymsList = result.synonyms.map((synonym, i) => (
+  const synonymsList = result.content.synonyms.map((synonym, i) => (
     <Box
       key={synonym + i}
       sx={{
@@ -148,15 +152,15 @@ const GoogleCard = ({ data }) => {
           subheader={
             <Box>
               <Typography display="block" variant="caption">
-                {result.phonetic}
+                {result.content.phonetic}
               </Typography>
             </Box>
           }
         />
         <CardContent sx={{ paddingTop: 0, marginLeft: 1 }}>
-          {result.meanings.length === 1 && singleMeaning}
-          {result.meanings.length > 1 && meaningList}
-          {result.synonyms.length > 0 && (
+          {result.content.meanings.length === 1 && singleMeaning}
+          {result.content.meanings.length > 1 && meaningList}
+          {result.content.synonyms.length > 0 && (
             <Box sx={{ marginTop: 1 }}>
               <Typography style={{ color: "#198138" }} variant="caption">
                 Similar:

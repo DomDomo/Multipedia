@@ -21,9 +21,11 @@ def google_dict_request(payload):
 def get_meanings(payload):
     filtered_response = {
         "title": "Sorry :(",
-        "phonetic": "",
-        "synonyms": [],
-        "meanings": [],
+        "content": {
+            "phonetic": "",
+            "synonyms": [],
+            "meanings": [],
+        }
     }
 
     try:
@@ -34,7 +36,7 @@ def get_meanings(payload):
         filtered_response["title"] = full_definition["word"]
 
         if "phonetic" in full_definition:
-            filtered_response["phonetic"] = full_definition["phonetic"]
+            filtered_response["content"]["phonetic"] = full_definition["phonetic"]
 
         for meaning in full_definition["meanings"]:
             meaning_obj = {}
@@ -48,11 +50,11 @@ def get_meanings(payload):
                 meaning_obj["example"] = definition_data["example"]
 
             if "synonyms" in meaning:
-                filtered_response["synonyms"] = (
-                    filtered_response["synonyms"] + meaning["synonyms"][:3]
+                filtered_response["content"]["synonyms"] = (
+                    filtered_response["content"]["synonyms"] + meaning["synonyms"][:3]
                 )
 
-            filtered_response["meanings"].append(meaning_obj)
+            filtered_response["content"]["meanings"].append(meaning_obj)
 
     except Exception as e:
         print("Google API exception: ", e)

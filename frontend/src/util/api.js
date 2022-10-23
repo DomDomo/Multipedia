@@ -7,13 +7,15 @@ export const googleRequest = async (payload) => {
     const googleDictResponse = await axios.get(`/googl/${payload}/`);
     const googleDefinition = googleDictResponse.data["definition"];
 
-    if (googleDefinition.meanings.length === 0) return filteredResponse;
+    if (googleDefinition.content.meanings.length === 0) return filteredResponse;
 
     filteredResponse = googleDefinition;
   } catch (err) {
     console.error(err);
   }
 
+  console.log("Filter");
+  console.log(filteredResponse);
   return filteredResponse;
 };
 
