@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-
-import { Box, Grid, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 
+import { Box, Grid, Typography } from "@mui/material";
+
 import LogoBar from "./LogoBar";
-import UrbanCard from "./cards/UrbanCard";
-import WikiCard from "./cards/WikiCard";
-import GoogleCard from "./cards/GoogleCard";
-import TwitterCard from "./cards/TwitterCard";
+import AllCards from "./cards/AllCards";
+
 import {
   googleRequest,
   twitterRequest,
@@ -17,53 +15,6 @@ import {
   postDefinition,
 } from "../util/api";
 import { objIsEmpty, deslugify } from "../util/helper";
-import LoadingCard from "./cards/LoadingCard";
-
-const DynamicCard = (props) => {
-  return (
-    <Grid item xs={10}>
-      {!objIsEmpty(props.load) && props.children}
-    </Grid>
-  );
-};
-
-const WorkingCards = ({ fullResult }) => {
-  return (
-    <Grid container spacing={3} alignItems="center" justifyContent="center">
-      <DynamicCard load={fullResult.google}>
-        <GoogleCard data={fullResult.google} />
-      </DynamicCard>
-      <DynamicCard load={fullResult.urban}>
-        <UrbanCard data={fullResult.urban} />
-      </DynamicCard>
-      <DynamicCard load={fullResult.wiki}>
-        <WikiCard data={fullResult.wiki} />
-      </DynamicCard>
-      <DynamicCard load={fullResult.twitter}>
-        <TwitterCard data={fullResult.twitter} />
-      </DynamicCard>
-    </Grid>
-  );
-};
-
-const skeletonNum = 3;
-
-const LoadingCards = () => {
-  const cards = [];
-  for (let i = 0; i < skeletonNum; i++) {
-    cards.push(
-      <Grid item xs={10} key={i}>
-        <LoadingCard even={i % 2 === 0} />
-      </Grid>
-    );
-  }
-
-  return (
-    <Grid container spacing={3} alignItems="center" justifyContent="center">
-      {cards}
-    </Grid>
-  );
-};
 
 const defaultResult = {
   google: {},
@@ -149,12 +100,7 @@ const ResultPage = () => {
     return () => clearInterval(intervalId);
   }, [fullResult.progress]);
 
-  let cards = <WorkingCards fullResult={fullResult} />;
-  if (fullResult === defaultResult) cards = <LoadingCards />;
-
-  if (fullResult.progress === 100) {
-    postDefinition(term, slug, fullResult);
-  }
+  if (fullResult.progress === 100) postDefinition(term, slug, fullResult);
 
   return (
     <Box style={{ width: "100%" }}>
@@ -171,7 +117,7 @@ const ResultPage = () => {
           justifyContent="center"
           style={{ minHeight: "70vh" }}
         >
-          {cards}
+          <AllCards fullResult={fullResult} defaultResult={defaultResult} />
         </Grid>
       </Box>
     </Box>
