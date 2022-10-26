@@ -8,6 +8,6 @@ export const slugify = (str) =>
 
 export const deslugify = (str) => str.replaceAll("-", " ");
 
-export const objectIsEmpty = (obj) => {
+export const objIsEmpty = (obj) => {
   return Object.keys(obj).length === 0;
 };

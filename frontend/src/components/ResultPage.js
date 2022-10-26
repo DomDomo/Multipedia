@@ -14,15 +14,15 @@ import {
   urbanRequest,
   wikiRequest,
   findDefinition,
+  postDefinition,
 } from "../util/api";
-import { objectIsEmpty, slugify, deslugify } from "../util/helper";
+import { objIsEmpty, deslugify } from "../util/helper";
 import LoadingCard from "./cards/LoadingCard";
-import axios from "axios";
 
 const DynamicCard = (props) => {
   return (
     <Grid item xs={10}>
-      {!objectIsEmpty(props.load) && props.children}
+      {!objIsEmpty(props.load) && props.children}
     </Grid>
   );
 };
@@ -65,40 +65,6 @@ const LoadingCards = () => {
   );
 };
 
-const saveNewResultToDB = (term, newResult) => {
-  if (!newResult.new) return;
-  let resultClone = structuredClone(newResult);
-
-  let newResultData = {
-    term: term,
-    slug: slugify(term),
-  };
-
-  if (!objectIsEmpty(newResult.google)) {
-    newResultData["google_search"] = resultClone.google;
-    newResultData.google_search.content = JSON.stringify(
-      newResultData.google_search.content
-    );
-  }
-  if (!objectIsEmpty(newResult.urban))
-    newResultData["urban_search"] = resultClone.urban;
-  if (!objectIsEmpty(newResult.wiki))
-    newResultData["wiki_search"] = resultClone.wiki;
-  if (!objectIsEmpty(newResult.twitter)) {
-    newResultData["twitter_search"] = resultClone.twitter;
-    newResultData.twitter_search.tweets = JSON.stringify(
-      newResultData.twitter_search.tweets
-    );
-  }
-
-  axios({
-    method: "post",
-    url: "api/",
-    baseURL: "/",
-    data: newResultData,
-  });
-};
-
 const defaultResult = {
   google: {},
   urban: {},
@@ -116,10 +82,12 @@ const ResultPage = () => {
   const [fullResult, setFullResult] = useState(defaultResult);
   const [foundResult, setFoundResult] = useState(true);
 
+  //console.log(fullResult);
+
   // API requests
   useEffect(() => {
     findDefinition(slug).then((result) => {
-      if (!objectIsEmpty(result.data)) {
+      if (!objIsEmpty(result.data)) {
         const newFullResult = {
           google: result.data.google_search,
           urban: result.data.urban_search,
@@ -185,7 +153,7 @@ const ResultPage = () => {
   if (fullResult === defaultResult) cards = <LoadingCards />;
 
   if (fullResult.progress === 100) {
-    saveNewResultToDB(term, fullResult);
+    postDefinition(term, slug, fullResult);
   }
 
   return (

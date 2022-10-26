@@ -1,4 +1,5 @@
 import axios from "axios";
+import { objIsEmpty } from "./helper";
 
 export const googleRequest = async (payload) => {
   let filteredResponse = {};
@@ -79,4 +80,33 @@ export const findDefinition = (slug) => {
   }
 
   return filteredResponse;
+};
+
+export const postDefinition = (term, slug, definition) => {
+  if (!definition.new) return;
+  let defClone = structuredClone(definition);
+
+  let newDef = {
+    term: term,
+    slug: slug,
+  };
+
+  if (!objIsEmpty(defClone.google)) newDef["google_search"] = defClone.google;
+  if (!objIsEmpty(defClone.urban)) newDef["urban_search"] = defClone.urban;
+  if (!objIsEmpty(defClone.wiki)) newDef["wiki_search"] = defClone.wiki;
+  if (!objIsEmpty(defClone.twitter))
+    newDef["twitter_search"] = defClone.twitter;
+
+  // Saving JSON to SQLite DB so have to convert to string
+  if (!objIsEmpty(defClone.google))
+    newDef.google_search.content = JSON.stringify(newDef.google_search.content);
+  if (!objIsEmpty(defClone.twitter))
+    newDef.twitter_search.tweets = JSON.stringify(newDef.twitter_search.tweets);
+
+  axios({
+    method: "post",
+    url: "api/",
+    baseURL: "/",
+    data: newDef,
+  });
 };
