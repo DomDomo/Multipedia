@@ -15,7 +15,7 @@ import {
   wikiRequest,
   findDefinition,
 } from "../util/api";
-import { objectIsEmpty, slugify } from "../util/helper";
+import { objectIsEmpty, slugify, deslugify } from "../util/helper";
 import LoadingCard from "./cards/LoadingCard";
 import axios from "axios";
 
@@ -110,14 +110,15 @@ const defaultResult = {
 const icrementNum = 25;
 
 const ResultPage = () => {
-  const { term } = useParams();
+  const { slug } = useParams();
+  const term = deslugify(slug);
 
   const [fullResult, setFullResult] = useState(defaultResult);
   const [foundResult, setFoundResult] = useState(true);
 
   // API requests
   useEffect(() => {
-    findDefinition(term).then((result) => {
+    findDefinition(slug).then((result) => {
       if (!objectIsEmpty(result.data)) {
         const newFullResult = {
           google: result.data.google_search,
@@ -164,7 +165,7 @@ const ResultPage = () => {
         }))
       );
     }
-  }, [term, foundResult]);
+  }, [slug, term, foundResult]);
 
   // Progress bar turn off hook
   useEffect(() => {

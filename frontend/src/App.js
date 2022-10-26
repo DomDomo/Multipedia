@@ -9,7 +9,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SearchPage />} />
         <Route path="/result" element={<Navigate to="/" replace />} />
-        <Route path="/result/:term" element={<ResultPage />} />
+        <Route path="/result/:slug" element={<ResultPage />} />
       </Routes>
     </BrowserRouter>
   );

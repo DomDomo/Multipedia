@@ -52,13 +52,7 @@ export const wikiRequest = async (payload) => {
 };
 
 export const twitterRequest = async (payload) => {
-  let filteredResponse = {
-    google: {},
-    urban: {},
-    wiki: {},
-    twitter: {},
-    progress: 0,
-  };
+  let filteredResponse = {};
 
   try {
     const twitterResponse = await axios.get(`/twit/${payload}/`);

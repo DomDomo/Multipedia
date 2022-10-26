@@ -6,6 +6,8 @@ export const slugify = (str) =>
     .replace(/[\s_-]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
+export const deslugify = (str) => str.replaceAll("-", " ");
+
 export const objectIsEmpty = (obj) => {
   return Object.keys(obj).length === 0;
 };
