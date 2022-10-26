@@ -14,8 +14,6 @@ export const googleRequest = async (payload) => {
     console.error(err);
   }
 
-  console.log("Filter");
-  console.log(filteredResponse);
   return filteredResponse;
 };
 

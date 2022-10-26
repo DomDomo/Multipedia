@@ -55,6 +55,9 @@ def fix_date_style(tweet_date):
 
     return styled_datetime
 
+def http_to_https(image):
+    return image.replace("http", "https", 1)
+
 
 def get_tweets(payload):
     full_tweets = twitter_request(payload)
@@ -68,7 +71,7 @@ def get_tweets(payload):
                 "date": fix_date_style(tweet["created_at"]),
                 "name": tweet["user"]["name"],
                 "screen_name": tweet["user"]["screen_name"],
-                "profile_image": tweet["user"]["profile_image_url"],
+                "profile_image": http_to_https(tweet["user"]["profile_image_url"]),
                 "text": tweet["full_text"],
                 "likes": tweet["favorite_count"],
             }
