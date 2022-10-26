@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Box, Grid, Typography } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import LogoBar from "./LogoBar";
 import UrbanCard from "./cards/UrbanCard";
@@ -110,15 +110,14 @@ const defaultResult = {
 const icrementNum = 25;
 
 const ResultPage = () => {
-  // @ts-ignore
-  const { search } = useLocation().state;
+  const { term } = useParams();
 
   const [fullResult, setFullResult] = useState(defaultResult);
   const [foundResult, setFoundResult] = useState(true);
 
   // API requests
   useEffect(() => {
-    findDefinition(slugify(search)).then((result) => {
+    findDefinition(term).then((result) => {
       if (!objectIsEmpty(result.data)) {
         const newFullResult = {
           google: result.data.google_search,
@@ -136,28 +135,28 @@ const ResultPage = () => {
 
     if (!foundResult) {
       setFullResult({ ...defaultResult, new: true });
-      googleRequest(search).then((data) =>
+      googleRequest(term).then((data) =>
         setFullResult((fullResult) => ({
           ...fullResult,
           google: data,
           progress: fullResult.progress + icrementNum,
         }))
       );
-      urbanRequest(search).then((data) =>
+      urbanRequest(term).then((data) =>
         setFullResult((fullResult) => ({
           ...fullResult,
           urban: data,
           progress: fullResult.progress + icrementNum,
         }))
       );
-      wikiRequest(search).then((data) =>
+      wikiRequest(term).then((data) =>
         setFullResult((fullResult) => ({
           ...fullResult,
           wiki: data,
           progress: fullResult.progress + icrementNum,
         }))
       );
-      twitterRequest(search).then((data) =>
+      twitterRequest(term).then((data) =>
         setFullResult((fullResult) => ({
           ...fullResult,
           twitter: data,
@@ -165,7 +164,7 @@ const ResultPage = () => {
         }))
       );
     }
-  }, [search, foundResult]);
+  }, [term, foundResult]);
 
   // Progress bar turn off hook
   useEffect(() => {
@@ -185,14 +184,14 @@ const ResultPage = () => {
   if (fullResult === defaultResult) cards = <LoadingCards />;
 
   if (fullResult.progress === 100) {
-    saveNewResultToDB(search, fullResult);
+    saveNewResultToDB(term, fullResult);
   }
 
   return (
     <Box style={{ width: "100%" }}>
       <LogoBar progress={fullResult.progress} />
       <Typography variant="h4" align="center" sx={{ marginY: 3 }}>
-        Search for: {search}
+        Search for: {term}
       </Typography>
       <Box sx={{ margin: "0 auto", maxWidth: "45rem", minWidth: "24rem" }}>
         <Grid
