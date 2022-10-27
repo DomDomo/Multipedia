@@ -20,7 +20,7 @@ const LinkedText = (props) => {
   const commitSearch = (search) => {
     navigate(`../result/${slugify(search)}`, {
       state: {
-        search: search,
+        term: search,
       },
     });
   };

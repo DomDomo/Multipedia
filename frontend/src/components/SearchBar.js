@@ -10,7 +10,11 @@ const SearchBar = () => {
 
   const commitSearch = (search) => {
     if (search.trim() === "") return;
-    navigate(`../result/${slugify(search)}`);
+    navigate(`../result/${slugify(search)}`, {
+      state: {
+        term: search,
+      },
+    });
   };
 
   const enterKeyPress = (e) => {

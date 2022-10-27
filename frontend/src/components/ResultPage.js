@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 import { Box, Grid, Typography } from "@mui/material";
 
@@ -14,7 +14,7 @@ import {
   findDefinition,
   postDefinition,
 } from "../util/api";
-import { objIsEmpty, deslugify } from "../util/helper";
+import { objIsEmpty, slugify, deslugify } from "../util/helper";
 
 const defaultResult = {
   google: {},
@@ -27,8 +27,12 @@ const defaultResult = {
 const icrementNum = 25;
 
 const ResultPage = () => {
-  const { slug } = useParams();
-  const term = deslugify(slug);
+  let { slug } = useParams();
+  slug = slugify(slug);
+
+  const location = useLocation();
+  // @ts-ignore
+  const term = location.state ? location.state.term : deslugify(slug);
 
   const [fullResult, setFullResult] = useState(defaultResult);
   const [resutlWasFound, setResutlWasFound] = useState(true);
