@@ -95,7 +95,11 @@ const UrbanCard = ({ data }) => {
             />
           }
           title={
-            <Typography variant="h5" color="#1FA2F3">
+            <Typography
+              sx={{ wordBreak: "break-word" }}
+              variant="h5"
+              color="#1FA2F3"
+            >
               {result.word}
             </Typography>
           }

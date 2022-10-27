@@ -101,7 +101,11 @@ const TwitterCard = ({ data }) => {
               component="img"
             />
           }
-          title={<Typography variant="h5">{result.title}</Typography>}
+          title={
+            <Typography sx={{ wordBreak: "break-word" }} variant="h5">
+              {result.title}
+            </Typography>
+          }
         />
         <CardContent sx={{ padding: 0 }}>{tweetList}</CardContent>
       </Card>

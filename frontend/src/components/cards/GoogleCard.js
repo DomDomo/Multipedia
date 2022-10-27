@@ -143,12 +143,17 @@ const GoogleCard = ({ data }) => {
           action={
             <CardMedia
               onClick={handleRealWebsiteRedirect}
-              height="45"
+              height="40"
               src={Google}
               component="img"
+              sx={{ objectFit: "contain" }}
             />
           }
-          title={<Typography variant="h5">{result.title}</Typography>}
+          title={
+            <Typography sx={{ wordBreak: "break-word" }} variant="h5">
+              {result.title}
+            </Typography>
+          }
           subheader={
             <Box>
               <Typography display="block" variant="caption">

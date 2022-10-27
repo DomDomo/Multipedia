@@ -31,9 +31,7 @@ const ResultPage = () => {
   const term = deslugify(slug);
 
   const [fullResult, setFullResult] = useState(defaultResult);
-  const [foundResult, setFoundResult] = useState(true);
-
-  //console.log(fullResult);
+  const [resutlWasFound, setResutlWasFound] = useState(true);
 
   // API requests
   useEffect(() => {
@@ -49,11 +47,11 @@ const ResultPage = () => {
         };
         setFullResult(newFullResult);
       } else {
-        setFoundResult(false);
+        setResutlWasFound(false);
       }
     });
 
-    if (!foundResult) {
+    if (!resutlWasFound) {
       setFullResult({ ...defaultResult, new: true });
       googleRequest(term).then((data) =>
         setFullResult((fullResult) => ({
@@ -84,7 +82,7 @@ const ResultPage = () => {
         }))
       );
     }
-  }, [slug, term, foundResult]);
+  }, [slug, term, resutlWasFound]);
 
   // Progress bar turn off hook
   useEffect(() => {
@@ -105,17 +103,21 @@ const ResultPage = () => {
   return (
     <Box style={{ width: "100%" }}>
       <LogoBar progress={fullResult.progress} />
-      <Typography variant="h4" align="center" sx={{ marginY: 3 }}>
+      <Typography
+        variant="h4"
+        align="center"
+        sx={{ marginY: 3, wordBreak: "break-word" }}
+      >
         Search for: {term}
       </Typography>
-      <Box sx={{ margin: "0 auto", maxWidth: "45rem", minWidth: "24rem" }}>
+      <Box sx={{ margin: "0 auto", maxWidth: "45rem", minWidth: "20rem" }}>
         <Grid
           container
           spacing={0}
           direction="column"
           alignItems="center"
           justifyContent="center"
-          style={{ minHeight: "70vh" }}
+          style={{ minHeight: "70vh", width: "100%" }}
         >
           <AllCards fullResult={fullResult} defaultResult={defaultResult} />
         </Grid>

@@ -91,8 +91,12 @@ const WikiCard = ({ data }) => {
           }
           title={
             <Typography
+              sx={{
+                wordBreak: "break-word",
+                borderBottom: "1px solid #a2a9b1",
+                width: "95%",
+              }}
               variant="h5"
-              sx={{ borderBottom: "1px solid #a2a9b1", width: "95%" }}
             >
               {result.title}
             </Typography>
