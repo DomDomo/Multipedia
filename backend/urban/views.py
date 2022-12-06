@@ -1,3 +1,4 @@
+import os
 from django.http import JsonResponse
 import requests
 
@@ -15,7 +16,7 @@ DEFINITION_NUM = 3
 URBAN_URL = "https://mashape-community-urban-dictionary.p.rapidapi.com/define"
 
 HEADERS = {
-    "X-RapidAPI-Key": config["RAPID_API_KEY"],
+    "X-RapidAPI-Key": os.environ["RAPID_API_KEY"],
     "X-RapidAPI-Host": "mashape-community-urban-dictionary.p.rapidapi.com",
 }
 
