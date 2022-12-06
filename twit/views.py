@@ -33,10 +33,10 @@ def twitter_request(payload):
         tso.arguments.update({"tweet_mode": "extended"})
 
         ts = TwitterSearch(
-            consumer_key=os.environ["TWITTER_API_KEY"],
-            consumer_secret=os.environ["TWITTER_API_KEY_SECRET"],
-            access_token=os.environ["TWITTER_ACCESS_TOKEN"],
-            access_token_secret=os.environ["TWITTER_TOKEN_SECRET"],
+            consumer_key=config["TWITTER_API_KEY"],
+            consumer_secret=config["TWITTER_API_KEY_SECRET"],
+            access_token=config["TWITTER_ACCESS_TOKEN"],
+            access_token_secret=config["TWITTER_TOKEN_SECRET"],
         )
 
         for tweet in ts.search_tweets_iterable(tso):
