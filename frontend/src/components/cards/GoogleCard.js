@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import LinkedText from "../LinkedText";
 
-const wikiTheme = createTheme({
+const googleTheme = createTheme({
   typography: {
     allVariants: {
       color: "#202124",
@@ -136,7 +136,7 @@ const GoogleCard = ({ data }) => {
   ));
 
   return (
-    <ThemeProvider theme={wikiTheme}>
+    <ThemeProvider theme={googleTheme}>
       <Card>
         <CardHeader
           sx={{ paddingBottom: 1 }}

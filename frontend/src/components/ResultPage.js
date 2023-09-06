@@ -104,6 +104,8 @@ const ResultPage = () => {
 
   if (fullResult.progress === 100) postDefinition(term, slug, fullResult);
 
+  console.log(fullResult);
+
   return (
     <Box style={{ width: "100%" }}>
       <LogoBar progress={fullResult.progress} />
@@ -114,7 +116,14 @@ const ResultPage = () => {
       >
         Search for: {term}
       </Typography>
-      <Box sx={{ margin: "0 auto", maxWidth: "45rem", minWidth: "20rem" }}>
+      <Box
+        sx={{
+          margin: "0 auto",
+          maxWidth: "45rem",
+          minWidth: "20rem",
+          marginBottom: "2rem",
+        }}
+      >
         <Grid
           container
           spacing={0}
