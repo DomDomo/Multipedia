@@ -76,6 +76,18 @@ export const twitterRequest = async (payload) => {
   return filteredResponse;
 };
 
+export const chatgptRequest = async (payload) => {
+  let filteredResponse = {};
+
+  filteredResponse = {
+    prompt: payload,
+    response:
+      "'Yeet' is a slang term that originated from African American Vernacular English (AAVE). It is an exclamation used to express excitement, joy, or accomplishment. It can also be used as a verb to describe forcefully throwing or discarding something with a lot of energy. Over time, 'yeet' has become popularized in internet culture and is often used in memes, videos, and social media as a catchphrase or expression of enthusiasm.",
+  };
+
+  return filteredResponse;
+};
+
 export const findDefinition = (slug) => {
   let filteredResponse = {};
 

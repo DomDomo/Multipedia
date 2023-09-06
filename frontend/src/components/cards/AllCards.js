@@ -49,8 +49,8 @@ const WorkingCards = ({ fullResult }) => {
       component: <TwitterCard data={fullResult.twitter} />,
     },
     {
-      load: fullResult.urban,
-      component: <ChatGPTCard data={fullResult.urban} />,
+      load: fullResult.chatgpt,
+      component: <ChatGPTCard data={fullResult.chatgpt} />,
     },
   ];
 

@@ -39,27 +39,13 @@ const chatGptTheme = createTheme({
         },
       },
     },
-    MuiLink: {
-      styleOverrides: {
-        root: {
-          fontFamily: ["Roboto", "sans-serif"].join(","),
-          fontSize: 12,
-          ":hover": {
-            cursor: "pointer",
-          },
-          color: "#3C4043",
-          textDecorationLine: "none",
-        },
-      },
-    },
   },
 });
 
 const ChatGPTCard = ({ data }) => {
   const [result, setResult] = useState({
-    word: "loading...",
-    example: "loading...",
-    definition: "loading...",
+    prompt: "loading...",
+    response: "loading...",
   });
 
   useEffect(() => {
@@ -85,13 +71,13 @@ const ChatGPTCard = ({ data }) => {
           }
           title={
             <Typography sx={{ wordBreak: "break-word" }} variant="h5">
-              What does "{result.word}" mean?
+              What does "{result.prompt}" mean?
             </Typography>
           }
         />
         <CardContent sx={{ paddingTop: 1 }}>
           <Typography variant="body1" sx={{ mb: 1 }}>
-            <LinkedText text={result.definition} />
+            <LinkedText text={result.response} />
           </Typography>
         </CardContent>
       </Card>

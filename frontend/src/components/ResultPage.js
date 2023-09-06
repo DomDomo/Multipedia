@@ -11,6 +11,7 @@ import {
   twitterRequest,
   urbanRequest,
   wikiRequest,
+  chatgptRequest,
   findDefinition,
   postDefinition,
 } from "../util/api";
@@ -21,10 +22,11 @@ const defaultResult = {
   urban: {},
   wiki: {},
   twitter: {},
+  chatgpt: {},
   progress: 0,
   new: false,
 };
-const icrementNum = 25;
+const icrementNum = 20;
 
 const ResultPage = () => {
   let { slug } = useParams();
@@ -46,6 +48,7 @@ const ResultPage = () => {
           urban: result.data.urban_search,
           wiki: result.data.wiki_search,
           twitter: result.data.twitter_search,
+          chatgpt: result.data.chatgpt_search,
           progress: 100,
           new: false,
         };
@@ -82,6 +85,13 @@ const ResultPage = () => {
         setFullResult((fullResult) => ({
           ...fullResult,
           twitter: data,
+          progress: fullResult.progress + icrementNum,
+        }))
+      );
+      chatgptRequest(term).then((data) =>
+        setFullResult((fullResult) => ({
+          ...fullResult,
+          chatgpt: data,
           progress: fullResult.progress + icrementNum,
         }))
       );
