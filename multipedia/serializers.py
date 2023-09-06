@@ -12,8 +12,8 @@ from wiki.serializers import WikiSearchSerializer
 from googl.models import GoogleSearch
 from googl.serializers import GoogleSearchSerializer
 
-from twit.models import TwitterSearch
-from twit.serializers import TwitterSearchSerializer
+from twitter.models import TwitterSearch
+from twitter.serializers import TwitterSearchSerializer
 
 class SearchSerializer(serializers.ModelSerializer):
     urban_search = UrbanSearchSerializer(read_only=False, required=False)

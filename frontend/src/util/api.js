@@ -56,7 +56,7 @@ export const twitterRequest = async (payload) => {
   let filteredResponse = {};
 
   try {
-    const twitterResponse = await axios.get(`/twit/${payload}/`);
+    const twitterResponse = await axios.get(`/twitter/${payload}/`);
     const twitterTweets = twitterResponse.data;
 
     if (twitterTweets.tweets.length === 0) return filteredResponse;

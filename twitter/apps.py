@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class TwitConfig(AppConfig):
+class TwitterConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'twit'
+    name = 'twitter'

@@ -4,8 +4,8 @@ from TwitterSearch import *
 
 from rest_framework import generics
 
-from twit.models import TwitterSearch as TwitSearch
-from twit.serializers import TwitterSearchSerializer
+from twitter.models import TwitterSearch as TwitSearch
+from twitter.serializers import TwitterSearchSerializer
 
 from multipedia.secrets import get_secret
 
@@ -14,7 +14,6 @@ TWEET_NUM = 3
 
 
 def twitter_request(payload):
-    print(payload)
     tweets = []
 
     try:
@@ -29,8 +28,6 @@ def twitter_request(payload):
         tso.set_count(3)
 
         tso.arguments.update({"tweet_mode": "extended"})
-
-        print(tso.create_search_url())
 
         ts = TwitterSearch(
             consumer_key=get_secret("TWITTER_API_KEY"),

@@ -35,5 +35,4 @@ class SearchExistsAndIsRecent(APIView):
             search.delete()
             return Response({})
 
-        # print(serializer.data)
         return Response(serializer.data)
