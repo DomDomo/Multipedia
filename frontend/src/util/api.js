@@ -55,16 +55,17 @@ export const wikiRequest = async (payload) => {
 export const twitterRequest = async (payload) => {
   let filteredResponse = {};
 
-  try {
-    const twitterResponse = await axios.get(`/twitter/${payload}/`);
-    const twitterTweets = twitterResponse.data;
+  // Searching for tweets no longer works with the free version of the API
+  // try {
+  //   const twitterResponse = await axios.get(`/twitter/${payload}/`);
+  //   const twitterTweets = twitterResponse.data;
 
-    if (twitterTweets.tweets.length === 0) return filteredResponse;
+  //   if (twitterTweets.tweets.length === 0) return filteredResponse;
 
-    filteredResponse = twitterTweets;
-  } catch (err) {
-    console.error(err);
-  }
+  //   filteredResponse = twitterTweets;
+  // } catch (err) {
+  //   console.error(err);
+  // }
 
   return filteredResponse;
 };
