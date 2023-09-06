@@ -26,6 +26,9 @@ const WorkingCards = ({ fullResult }) => {
       <DynamicCard load={fullResult.google}>
         <GoogleCard data={fullResult.google} />
       </DynamicCard>
+      <DynamicCard load={fullResult.google}>
+        <GoogleCard data={fullResult.google} />
+      </DynamicCard>
       <DynamicCard load={fullResult.urban}>
         <UrbanCard data={fullResult.urban} />
       </DynamicCard>

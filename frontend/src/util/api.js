@@ -1,11 +1,17 @@
 import axios from "axios";
 import { objIsEmpty } from "./helper";
+import {
+  GOOGLE_API_URL,
+  MAIN_API_URL,
+  URBAN_API_URL,
+  WIKI_API_URL,
+} from "../constants/server-urls";
 
 export const googleRequest = async (payload) => {
   let filteredResponse = {};
 
   try {
-    const googleDictResponse = await axios.get(`/googl/${payload}/`);
+    const googleDictResponse = await axios.get(`${GOOGLE_API_URL}${payload}/`);
     const googleDefinition = googleDictResponse.data["definition"];
 
     if (googleDefinition.content.meanings.length === 0) return filteredResponse;
@@ -22,7 +28,7 @@ export const urbanRequest = async (payload) => {
   let filteredResponse = {};
 
   try {
-    const urbanResponse = await axios.get(`/urban/${payload}/`);
+    const urbanResponse = await axios.get(`${URBAN_API_URL}${payload}/`);
     const bestDefinition = urbanResponse.data["definitions"];
 
     if (bestDefinition.length === 0) return filteredResponse;
@@ -41,7 +47,7 @@ export const wikiRequest = async (payload) => {
   let filteredResponse = {};
 
   try {
-    const wikiResponse = await axios.get(`/wiki/${payload}/`);
+    const wikiResponse = await axios.get(`${WIKI_API_URL}${payload}/`);
     const bestWiki = wikiResponse.data["wiki"];
 
     filteredResponse = bestWiki;
@@ -57,7 +63,7 @@ export const twitterRequest = async (payload) => {
 
   // Searching for tweets no longer works with the free version of the API
   // try {
-  //   const twitterResponse = await axios.get(`/twitter/${payload}/`);
+  //   const twitterResponse = await axios.get(`${TWITTER_API_URL}${payload}/`);
   //   const twitterTweets = twitterResponse.data;
 
   //   if (twitterTweets.tweets.length === 0) return filteredResponse;
@@ -74,7 +80,7 @@ export const findDefinition = (slug) => {
   let filteredResponse = {};
 
   try {
-    const response = axios.get(`/api/${slug}/`);
+    const response = axios.get(`${MAIN_API_URL}${slug}/`);
     filteredResponse = response;
   } catch (err) {
     console.error(err);
