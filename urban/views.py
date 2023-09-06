@@ -1,14 +1,12 @@
-import os
 from django.http import JsonResponse
 import requests
 
-from dotenv import dotenv_values
 from rest_framework import generics
 
 from urban.models import UrbanSearch
 from urban.serializers import UrbanSearchSerializer
 
-config = dotenv_values(".env")
+from multipedia.secrets import get_secret
 
 
 DEFINITION_NUM = 3
@@ -16,13 +14,14 @@ DEFINITION_NUM = 3
 URBAN_URL = "https://mashape-community-urban-dictionary.p.rapidapi.com/define"
 
 HEADERS = {
-    "X-RapidAPI-Key": os.environ["RAPID_API_KEY"],
+    "X-RapidAPI-Key": get_secret("RAPID_API_KEY"),
     "X-RapidAPI-Host": "mashape-community-urban-dictionary.p.rapidapi.com",
 }
 
 
 def urban_request(payload):
-    urban_response = requests.get(URBAN_URL, headers=HEADERS, params={"term": payload})
+    urban_response = requests.get(
+        URBAN_URL, headers=HEADERS, params={"term": payload})
     return urban_response.json()["list"]
 
 
@@ -56,6 +55,7 @@ def get_definitions(payload):
 def urban_api_view(request, payload):
     urban_definitions = get_definitions(payload)
     return JsonResponse({"definitions": urban_definitions})
+
 
 class UrbanListAPIView(generics.ListAPIView):
     queryset = UrbanSearch.objects.all()

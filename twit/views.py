@@ -1,4 +1,3 @@
-import os
 from django.http import JsonResponse
 from datetime import datetime
 from TwitterSearch import *
@@ -8,15 +7,14 @@ from rest_framework import generics
 from twit.models import TwitterSearch as TwitSearch
 from twit.serializers import TwitterSearchSerializer
 
-from dotenv import dotenv_values
-
-config = dotenv_values(".env")
+from multipedia.secrets import get_secret
 
 
 TWEET_NUM = 3
 
 
 def twitter_request(payload):
+    print(payload)
     tweets = []
 
     try:
@@ -32,11 +30,13 @@ def twitter_request(payload):
 
         tso.arguments.update({"tweet_mode": "extended"})
 
+        print(tso.create_search_url())
+
         ts = TwitterSearch(
-            consumer_key=os.environ["TWITTER_API_KEY"],
-            consumer_secret=os.environ["TWITTER_API_KEY_SECRET"],
-            access_token=os.environ["TWITTER_ACCESS_TOKEN"],
-            access_token_secret=os.environ["TWITTER_TOKEN_SECRET"],
+            consumer_key=get_secret("TWITTER_API_KEY"),
+            consumer_secret=get_secret("TWITTER_API_KEY_SECRET"),
+            access_token=get_secret("TWITTER_ACCESS_TOKEN"),
+            access_token_secret=get_secret("TWITTER_TOKEN_SECRET"),
         )
 
         for tweet in ts.search_tweets_iterable(tso):
@@ -55,6 +55,7 @@ def fix_date_style(tweet_date):
         normalized_datetime, "%#I:%M %p · %b %d, %Y")
 
     return styled_datetime
+
 
 def http_to_https(image):
     return image.replace("http", "https", 1)
@@ -95,6 +96,7 @@ def get_tweets(payload):
 def twitter_api_view(request, payload):
     formatted_tweets = get_tweets(payload)
     return JsonResponse({"title": payload, "tweets": formatted_tweets})
+
 
 class TwitterListAPIView(generics.ListAPIView):
     queryset = TwitSearch.objects.all()

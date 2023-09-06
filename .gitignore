@@ -1,3 +1,6 @@
+# Multipedia
+build/
+
 # Django #
 *.log
 *.pot
