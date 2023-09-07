@@ -1,6 +1,7 @@
 import axios from "axios";
 import { objIsEmpty } from "./helper";
 import {
+  CHATGPT_API_URL,
   GOOGLE_API_URL,
   MAIN_API_URL,
   URBAN_API_URL,
@@ -79,11 +80,14 @@ export const twitterRequest = async (payload) => {
 export const chatgptRequest = async (payload) => {
   let filteredResponse = {};
 
-  filteredResponse = {
-    prompt: payload,
-    response:
-      "'Yeet' is a slang term that originated from African American Vernacular English (AAVE). It is an exclamation used to express excitement, joy, or accomplishment. It can also be used as a verb to describe forcefully throwing or discarding something with a lot of energy. Over time, 'yeet' has become popularized in internet culture and is often used in memes, videos, and social media as a catchphrase or expression of enthusiasm.",
-  };
+  try {
+    const chatgptResponse = await axios.get(`${CHATGPT_API_URL}${payload}/`);
+    const chatgptReply = chatgptResponse.data["reply"];
+
+    filteredResponse = chatgptReply;
+  } catch (err) {
+    console.error(err);
+  }
 
   return filteredResponse;
 };
@@ -115,6 +119,8 @@ export const postDefinition = (term, slug, definition) => {
   if (!objIsEmpty(defClone.wiki)) newDef["wiki_search"] = defClone.wiki;
   if (!objIsEmpty(defClone.twitter))
     newDef["twitter_search"] = defClone.twitter;
+  if (!objIsEmpty(defClone.chatgpt))
+    newDef["chatgpt_search"] = defClone.chatgpt;
 
   // Saving JSON to SQLite DB so have to convert to string
   if (!objIsEmpty(defClone.google))

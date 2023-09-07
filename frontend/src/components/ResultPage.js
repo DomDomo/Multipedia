@@ -114,8 +114,6 @@ const ResultPage = () => {
 
   if (fullResult.progress === 100) postDefinition(term, slug, fullResult);
 
-  console.log(fullResult);
-
   return (
     <Box style={{ width: "100%" }}>
       <LogoBar progress={fullResult.progress} />

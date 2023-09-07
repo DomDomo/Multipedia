@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+
 import ChatGPT from "../../icons/chatGPT.svg";
 
 import {
@@ -10,7 +12,6 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material";
-import LinkedText from "../LinkedText";
 
 const chatGptTheme = createTheme({
   typography: {
@@ -19,7 +20,7 @@ const chatGptTheme = createTheme({
       fontFamily: ["Söhne", "sans-serif"].join(","),
     },
     body1: {
-      fontSize: 13,
+      fontSize: 14,
     },
   },
   components: {
@@ -41,6 +42,18 @@ const chatGptTheme = createTheme({
     },
   },
 });
+
+// This is a modified version of the ReactMarkdown component
+// It returns just the contnet and not the wrapping <p> tag
+const MarkdownRenderer = ({ content }) => {
+  const CustomParagraph = ({ children }) => <>{children}</>;
+
+  const components = {
+    p: CustomParagraph,
+  };
+
+  return <ReactMarkdown components={components}>{content}</ReactMarkdown>;
+};
 
 const ChatGPTCard = ({ data }) => {
   const [result, setResult] = useState({
@@ -71,13 +84,13 @@ const ChatGPTCard = ({ data }) => {
           }
           title={
             <Typography sx={{ wordBreak: "break-word" }} variant="h5">
-              What does "{result.prompt}" mean?
+              {result.prompt}
             </Typography>
           }
         />
         <CardContent sx={{ paddingTop: 1 }}>
           <Typography variant="body1" sx={{ mb: 1 }}>
-            <LinkedText text={result.response} />
+            <MarkdownRenderer content={result.response} />
           </Typography>
         </CardContent>
       </Card>

@@ -54,7 +54,6 @@ def get_definitions(payload):
 
 def urban_api_view(request, payload):
     urban_definitions = get_definitions(payload)
-    print(urban_definitions)
     return JsonResponse({"definitions": urban_definitions})
 
 
