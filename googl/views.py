@@ -7,7 +7,6 @@ from googl.models import GoogleSearch
 from googl.serializers import GoogleSearchSerializer
 
 
-
 GOOGLE_DICT_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/"
 
 
@@ -51,7 +50,8 @@ def get_meanings(payload):
 
             if "synonyms" in meaning:
                 filtered_response["content"]["synonyms"] = (
-                    filtered_response["content"]["synonyms"] + meaning["synonyms"][:3]
+                    filtered_response["content"]["synonyms"] +
+                    meaning["synonyms"][:3]
                 )
 
             filtered_response["content"]["meanings"].append(meaning_obj)
@@ -65,6 +65,7 @@ def get_meanings(payload):
 def googl_api_view(request, payload):
     google_meanings = get_meanings(payload)
     return JsonResponse({"definition": google_meanings})
+
 
 class GoogleListAPIView(generics.ListAPIView):
     queryset = GoogleSearch.objects.all()

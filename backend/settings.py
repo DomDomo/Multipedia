@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "urban",
     "wiki",
     "twitter",
+    "chatgpt",
 ]
 
 MIDDLEWARE = [

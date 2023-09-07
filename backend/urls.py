@@ -24,5 +24,6 @@ urlpatterns = [
     path("urban/", include("urban.urls")),
     path("wiki/", include("wiki.urls")),
     path("twitter/", include("twitter.urls")),
+    path("chatgpt/", include("chatgpt.urls")),
     re_path('.*', TemplateView.as_view(template_name='index.html'))
 ]
