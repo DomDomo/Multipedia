@@ -1,17 +1,14 @@
 from django.http import JsonResponse
 import requests
 import copy
-import ast
 
 from rest_framework import generics
 
 from chatgpt.models import ChatGPTSearch
 from chatgpt.serializers import ChatGPTSearchSerializer
 
-from multipedia.secrets import get_secret
 
-
-CHATGPT_URL = "https://open-ai21.p.rapidapi.com/conversationgpt"
+CHATGPT_URL = "https://chat.acytoo.com/api/completions"
 
 DEFAULT_PAYLOAD = {
     "messages": [
@@ -23,9 +20,7 @@ DEFAULT_PAYLOAD = {
 }
 
 HEADERS = {
-    "content-type": "application/json",
-    "X-RapidAPI-Key": get_secret("RAPID_API_KEY"),
-    "X-RapidAPI-Host": "open-ai21.p.rapidapi.com"
+    "content-type": "text/plain; charset=utf-8",
 }
 
 
@@ -41,14 +36,17 @@ def chatgpt_request(payload):
         print("ChatGPT API exception: ", e)
         return -1
 
-    chatgpt_response = rapid_api_response.json()["GPT"]
+    chatgpt_response = rapid_api_response.text
 
-    # The GPT property is a string in a string - this extracts the inner string
-    inner_string = ast.literal_eval(chatgpt_response)
+    # Remove the ending message and any text after it
+    annoying_ending_message = "You can try our new always-free website:"
+    if annoying_ending_message in chatgpt_response:
+        chatgpt_response = chatgpt_response.split(
+            annoying_ending_message)[0].strip()
 
     formatted_response = {
         "prompt": rapid_api_payload["messages"][0]["content"],
-        "response": inner_string
+        "response": chatgpt_response
     }
 
     return formatted_response

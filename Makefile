@@ -1,5 +1,5 @@
 # Django-related commands
-runserver:
+run:
 	python manage.py runserver
 
 migrate:
